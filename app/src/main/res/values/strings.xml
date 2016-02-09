@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FiapFood</string>
+    <string name="welcome">Welcome</string>
+    <string name="stay_signed_in">Stay signed in</string>
+    <string name="sign_in">Sign in</string>
+    <string name="login_invalid">Name or password invalid, try again</string>
+
+    <string name="facebook_app_id">1569409960050648</string>
+    <string name="login_canceled">Login attempt canceled.</string>
+    <string name="login_failed">Login attempt failed.</string>
+</resources>
