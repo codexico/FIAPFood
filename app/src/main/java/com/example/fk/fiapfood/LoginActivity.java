@@ -101,10 +101,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToMainList() {
-//        Intent i = new Intent(LoginActivity.this, MainListActivity.class);
-//        startActivity(i);
-        Log.d("logged", "goToMainList xxXXXxxxxX");
-//        finish();
+        Intent i = new Intent(LoginActivity.this, MainListActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private boolean isValidUser() {

@@ -8,4 +8,5 @@
     <string name="facebook_app_id">1569409960050648</string>
     <string name="login_canceled">Login attempt canceled.</string>
     <string name="login_failed">Login attempt failed.</string>
+    <string name="title_activity_main_list">MainListActivity</string>
 </resources>
