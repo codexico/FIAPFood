@@ -24,7 +24,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final String FF_PREFS = "GTD_PREFS";
+    private final String FF_PREFS = "FF_PREFS";
     private final String KEEPSIGNEDIN = "KEEPSIGNEDIN";
 
     @Bind(R.id.etName)
