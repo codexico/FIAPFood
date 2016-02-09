@@ -29,7 +29,16 @@
         <activity
             android:name=".MainListActivity"
             android:label="@string/title_activity_main_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RestaurantAddActivity"
+            android:label="@string/title_activity_restaurant_add"
+            android:parentActivityName=".MainListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fk.fiapfood.MainListActivity" />
+        </activity>
     </application>
 
 </manifest>
