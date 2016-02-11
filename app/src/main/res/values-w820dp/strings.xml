@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome">Welcome</string>
-    <string name="stay_signed_in">Stay signed in</string>
-    <string name="sign_in">Sign in</string>
-    <string name="login_invalid">Name or password invalid, try again</string>
-    <string name="login_canceled">Login attempt canceled.</string>
-    <string name="login_failed">Login attempt failed.</string>
-    <string name="name">Name</string>
-    <string name="save">Save</string>
-    <string name="phone">Phone</string>
-    <string name="undefined">undefined</string>
-    <string name="delivery">delivery</string>
-    <string name="fast_food">fast food</string>
-    <string name="rodizio">rodízio</string>
+    <string name="login_invalid">Name or password invalid, try again please</string>
+    <string name="price">Average Price $</string>
 </resources>
