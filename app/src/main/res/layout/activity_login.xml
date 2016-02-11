@@ -25,7 +25,7 @@
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name (admin)"
+            android:hint="@string/name_hint"
             android:singleLine="true"
             />
 
@@ -40,7 +40,7 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password (admin)"
+            android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:singleLine="true"
             />

@@ -10,4 +10,16 @@
     <string name="login_failed">Login attempt failed.</string>
     <string name="title_activity_main_list">MainListActivity</string>
     <string name="title_activity_restaurant_add">RestaurantAddActivity</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
+    <string name="phone">Phone</string>
+    <string name="delivery">delivery</string>
+    <string name="fast_food">fast food</string>
+    <string name="rodizio">rodízio</string>
+    <string name="price">Price $</string>
+    <string name="decimal">.00</string>
+    <string name="observation">Observation</string>
+    <string name="other">other</string>
+    <string name="name_hint">Name (admin)</string>
+    <string name="password_hint">Password (admin)</string>
 </resources>
