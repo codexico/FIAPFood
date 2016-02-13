@@ -136,6 +136,15 @@
 
     </android.support.design.widget.TextInputLayout>
 
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mapMini"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        />
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
