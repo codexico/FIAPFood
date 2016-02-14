@@ -21,6 +21,21 @@
     >
 
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/take_photo"
+        android:id="@+id/btTakePhoto"
+        android:onClick="onClickTakePhoto"
+        />
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tlName"
         android:layout_width="match_parent"

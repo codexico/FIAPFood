@@ -1,14 +1,21 @@
 package com.example.fk.fiapfood;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,11 +31,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RestaurantAddActivity extends AppCompatActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOOOOOOD";
 
+
+    //////////////
+    // google map vars
+    //////////////
     protected GoogleApiClient mGoogleApiClient;
     protected LocationRequest mLocationRequest;
 
@@ -47,6 +63,18 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
+
+    //////////////
+    // photo vars
+    //////////////
+    private Uri fileUri;
+
+    private ImageView ivPhoto;
+
+    static final int REQUEST_TAKE_PHOTO = 11;
+    private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
@@ -63,11 +91,17 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         buildGoogleApiClient();
+
+        ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
     }
 
 
+    //////////////
+    // google map
+    //////////////
     protected synchronized void buildGoogleApiClient() {
-        Log.w(TAG, new Object() {}.getClass().getEnclosingMethod().getName());
+        Log.w(TAG, new Object() {
+        }.getClass().getEnclosingMethod().getName());
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -91,8 +125,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
      * updates.
      */
     protected void createLocationRequest() {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        Log.w(TAG, new Object() {}.getClass().getEnclosingMethod().getName());
+
         mLocationRequest = new LocationRequest();
 
         // Sets the desired interval for active location updates. This interval is
@@ -127,6 +161,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         Log.w(TAG, new Object() {
         }.getClass().getEnclosingMethod().getName());
+
         mMap = googleMap;
 
         if (mGoogleApiClient.isConnected()) {
@@ -137,6 +172,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     @Override
     public void onConnected(Bundle bundle) {
         Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -180,22 +216,20 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     public void onConnectionSuspended(int i) {
         Log.w(TAG, new Object() {
         }.getClass().getEnclosingMethod().getName());
-
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
-
+        Log.w(TAG, new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
         showLocation(currentLocation);
-
     }
-
 
     @Override
     protected void onStart() {
@@ -233,6 +267,98 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         mGoogleApiClient.disconnect();
 
         super.onStop();
+    }
+
+
+
+
+    //////////////
+    // photo
+    //////////////
+    public void onClickTakePhoto(View view) {
+        Log.w(TAG, new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
+        dispatchTakePictureIntent();
+    }
+
+    private void dispatchTakePictureIntent() {
+        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+
+                fileUri = Uri.fromFile(photoFile);
+
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+
+    private File createImageFile() throws IOException {
+        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        File storageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
+
+        if (!storageDir.exists()) {
+            if (!storageDir.mkdirs()) {
+                Log.e(IMAGE_DIRECTORY_NAME, "Error creating dir" + IMAGE_DIRECTORY_NAME);
+                return null;
+            }
+        }
+
+        File imageFile = new File(storageDir.getPath() + File.separator
+                + "img_" + timeStamp + ".jpg");
+
+        Log.w(TAG, imageFile.getPath());
+        return imageFile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Log.w(TAG, "INTENT READY");
+            previewCapturedImage();
+        }
+    }
+
+    private void previewCapturedImage() {
+        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+
+            // prevent OutOfMemory for many large images
+            options.inSampleSize = 8;
+
+            final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
+
+            ivPhoto.setImageBitmap(bitmap);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
 }
