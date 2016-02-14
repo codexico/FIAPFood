@@ -36,6 +36,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class RestaurantAddActivity extends AppCompatActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
@@ -69,7 +73,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     private Uri fileUri;
 
-    private ImageView ivPhoto;
+    @Bind(R.id.ivPhoto) ImageView ivPhoto;
 
     static final int REQUEST_TAKE_PHOTO = 11;
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
@@ -80,6 +84,9 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_add);
+
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -91,8 +98,6 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         buildGoogleApiClient();
-
-        ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
     }
 
 
@@ -226,7 +231,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        Log.w(TAG, new Object() {
+        }.getClass().getEnclosingMethod().getName());
 
         showLocation(currentLocation);
     }
@@ -275,6 +281,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     // photo
     //////////////
+    @OnClick(R.id.btTakePhoto)
     public void onClickTakePhoto(View view) {
         Log.w(TAG, new Object() {
         }.getClass().getEnclosingMethod().getName());
