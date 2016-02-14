@@ -95,6 +95,27 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
 
+    // useful when developing
+    // drop database if migration is needed
+    private Realm getRealm(Context context){
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
+
+        try {
+            return Realm.getInstance(realmConfiguration);
+        } catch (RealmMigrationNeededException e){
+            try {
+                realmConfiguration = new RealmConfiguration.Builder(context)
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                // Delete database and build a new one
+                return Realm.getInstance(realmConfiguration);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
@@ -115,7 +136,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
         buildGoogleApiClient();
 
-        realm = Realm.getInstance(this);
+        realm = getRealm(this);
     }
 
     @OnClick(R.id.btSaveRestaurant)
