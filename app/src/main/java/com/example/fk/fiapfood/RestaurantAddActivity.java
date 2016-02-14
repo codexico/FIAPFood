@@ -1,6 +1,7 @@
 package com.example.fk.fiapfood;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,8 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.example.fk.fiapfood.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -39,12 +44,23 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+import io.realm.exceptions.RealmMigrationNeededException;
 
 public class RestaurantAddActivity extends AppCompatActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOOOOOOD";
 
+    private Realm realm;
+
+    @Bind(R.id.etName) EditText etName;
+    @Bind(R.id.etPhone) EditText etPhone;
+    @Bind(R.id.rgType) RadioGroup rgType;
+    @Bind(R.id.etPrice) EditText etPrice;
+    @Bind(R.id.etObservation) EditText etObservation;
 
     //////////////
     // google map vars
@@ -98,6 +114,45 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         buildGoogleApiClient();
+
+        realm = Realm.getInstance(this);
+    }
+
+    @OnClick(R.id.btSaveRestaurant)
+    public void saveRestaurant(View view) {
+        Log.w(TAG, new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
+        realm.beginTransaction();
+
+        Restaurant restaurant = realm.createObject(Restaurant.class);
+
+        restaurant.setName(etName.getText().toString());
+        restaurant.setPhone(etPhone.getText().toString());
+        restaurant.setObservation(etObservation.getText().toString());
+
+        int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
+        RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
+        restaurant.setType(rbSelected.getText().toString());
+
+        restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
+
+        restaurant.setImageUrl(fileUri.getPath());
+
+        restaurant.setLatitude(currentLocation.getLatitude());
+        restaurant.setLongitude(currentLocation.getLongitude());
+
+        realm.commitTransaction();
+
+        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
+        Log.w(TAG, restaurant.getName());
+        Log.w(TAG, restaurant.getPhone());
+        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
+        Log.w(TAG, restaurant.getImageUrl());
+
+        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
+
+        Log.w(TAG, Integer.toString(allRestaurants.size()));
     }
 
 
