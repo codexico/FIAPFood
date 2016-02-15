@@ -40,6 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class RestaurantEditActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -131,6 +132,45 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
     }
 
+
+
+    @OnClick(R.id.btSaveRestaurant)
+    public void saveRestaurant(View view) {
+        Helper.logMethodName(new Object() {
+        });
+
+        realm.beginTransaction();
+
+        restaurant.setName(etName.getText().toString());
+        restaurant.setPhone(etPhone.getText().toString());
+        restaurant.setObservation(etObservation.getText().toString());
+
+        int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
+        RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
+        restaurant.setType(rbSelected.getId());
+
+        restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
+
+        restaurant.setImageUrl(restaurant.getImageUrl());
+
+        restaurant.setLatitude(restaurant.getLatitude());
+        restaurant.setLongitude(restaurant.getLongitude());
+
+        realm.commitTransaction();
+
+        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
+        Log.w(TAG, restaurant.getName());
+        Log.w(TAG, restaurant.getPhone());
+        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
+        Log.w(TAG, restaurant.getImageUrl());
+
+        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
+
+        Log.w(TAG, Integer.toString(allRestaurants.size()));
+
+        Intent i = new Intent(RestaurantEditActivity.this, MainListActivity.class);
+        startActivity(i);
+    }
 
 
     //////////////
