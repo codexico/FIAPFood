@@ -1,9 +1,13 @@
 package com.example.fk.fiapfood;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,12 +29,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class RestaurantEditActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    protected static final String TAG = "FIAPFOOOOOOOOOOOOODEDIT";
 
     private Realm realm;
     private int oldRestaurantPosition;
@@ -44,17 +56,20 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
     @Bind(R.id.etObservation) EditText etObservation;
 
 
+    //////////////
+    // photo vars
+    //////////////
     private Uri fileUri;
+
     @Bind(R.id.ivPhoto) ImageView ivPhoto;
+
+    static final int REQUEST_TAKE_PHOTO = 11;
+    private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
     //////////////
     // google map vars
     //////////////
-    protected GoogleApiClient mGoogleApiClient;
-    protected LocationRequest mLocationRequest;
-
     private GoogleMap mMap;
-    protected Location restaurantLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +88,7 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         oldRestaurantPosition = intent.getIntExtra("restaurant", 0);
@@ -81,14 +97,18 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
 
         restaurant = realm.where(Restaurant.class).findAll().get(oldRestaurantPosition);
 
-        Log.w("asdfadsfadsf", restaurant.getName());
-
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapMini);
         mapFragment.getMapAsync(this);
+
+        previewSavedImage();
     }
 
+
+
+    //////////////
+    // google map
+    //////////////
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Helper.logMethodName(new Object() {
@@ -103,4 +123,123 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
         mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
     }
+
+
+
+    //////////////
+    // photo
+    //////////////
+    @OnClick(R.id.btTakePhoto)
+    public void onClickTakePhoto(View view) {
+        Helper.logMethodName(new Object() {
+        });
+
+        dispatchTakePictureIntent();
+    }
+
+    private void dispatchTakePictureIntent() {
+        Helper.logMethodName(new Object() {
+        });
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+
+                fileUri = Uri.fromFile(photoFile);
+
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+
+    private File createImageFile() throws IOException {
+        Helper.logMethodName(new Object() {
+        });
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        File storageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
+
+        if (!storageDir.exists()) {
+            if (!storageDir.mkdirs()) {
+                Log.e(IMAGE_DIRECTORY_NAME, "Error creating dir" + IMAGE_DIRECTORY_NAME);
+                return null;
+            }
+        }
+
+        File imageFile = new File(storageDir.getPath() + File.separator
+                + "img_" + timeStamp + ".jpg");
+
+        Log.w(TAG, imageFile.getPath());
+        return imageFile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Helper.logMethodName(new Object() {
+        });
+
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Log.w(TAG, "INTENT READY");
+            previewCapturedImage();
+        }
+    }
+
+    private void previewCapturedImage() {
+        Helper.logMethodName(new Object() {
+        });
+
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+
+            // prevent OutOfMemory for many large images
+            options.inSampleSize = 8;
+
+            final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
+
+            ivPhoto.setImageBitmap(bitmap);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void previewSavedImage() {
+        Helper.logMethodName(new Object() {
+        });
+
+        Log.w(TAG, restaurant.getImageUrl());
+
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+
+            // prevent OutOfMemory for many large images
+            options.inSampleSize = 8;
+
+            final Bitmap bitmap = BitmapFactory.decodeFile(restaurant.getImageUrl(), options);
+
+            ivPhoto.setImageBitmap(bitmap);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
