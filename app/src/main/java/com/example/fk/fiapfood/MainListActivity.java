@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
 
-public class MainListActivity extends AppCompatActivity {
+public class MainListActivity extends NavigationDrawerActivity {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOODLIST";
 
@@ -68,6 +69,10 @@ public class MainListActivity extends AppCompatActivity {
                 goToAddStuffActivity();
             }
         });
+
+        // connect NavigationDrawerActivity actions
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
         mRecyclerView.setHasFixedSize(true);
