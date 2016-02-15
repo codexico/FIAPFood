@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -95,15 +96,26 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
 
+    //////////////
+    // helpers
+    //////////////
+    private void logMethodName(Object o) {
+        Log.w(TAG, "method: " + o.getClass().getEnclosingMethod().getName());
+    }
+
     // useful when developing
     // drop database if migration is needed
     private Realm getRealm(Context context){
+        logMethodName(new Object() {
+        });
+
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
 
         try {
             return Realm.getInstance(realmConfiguration);
         } catch (RealmMigrationNeededException e){
             try {
+                Log.w(TAG, "drop database");
                 realmConfiguration = new RealmConfiguration.Builder(context)
                         .deleteRealmIfMigrationNeeded()
                         .build();
@@ -116,9 +128,15 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         }
     }
 
+
+    //////////////
+    // init
+    //////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_add);
 
@@ -141,8 +159,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @OnClick(R.id.btSaveRestaurant)
     public void saveRestaurant(View view) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         realm.beginTransaction();
 
@@ -181,8 +199,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     // google map
     //////////////
     protected synchronized void buildGoogleApiClient() {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -206,7 +224,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
      * updates.
      */
     protected void createLocationRequest() {
-        Log.w(TAG, new Object() {}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         mLocationRequest = new LocationRequest();
 
@@ -225,7 +244,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
 
     private void showLocation(Location location) {
-        Log.w(TAG, new Object() {}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         double lat = location.getLatitude();
         double lng = location.getLongitude();
@@ -240,8 +260,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         mMap = googleMap;
 
@@ -252,7 +272,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -273,7 +294,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
      * Requests location updates from the FusedLocationApi.
      */
     protected void startLocationUpdates() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
@@ -295,34 +317,38 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         showLocation(currentLocation);
     }
 
     @Override
     protected void onStart() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
+
         super.onStart();
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onResume() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
+
         super.onResume();
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
@@ -335,7 +361,9 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onPause() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
+
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
         if (mGoogleApiClient.isConnected()) {
@@ -345,7 +373,9 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onStop() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
+
         mGoogleApiClient.disconnect();
 
         super.onStop();
@@ -359,14 +389,15 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     @OnClick(R.id.btTakePhoto)
     public void onClickTakePhoto(View view) {
-        Log.w(TAG, new Object() {
-        }.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         dispatchTakePictureIntent();
     }
 
     private void dispatchTakePictureIntent() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -394,7 +425,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
 
     private File createImageFile() throws IOException {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -418,7 +450,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Log.w(TAG, "INTENT READY");
@@ -427,7 +460,8 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void previewCapturedImage() {
-        Log.w(TAG, new Object(){}.getClass().getEnclosingMethod().getName());
+        logMethodName(new Object() {
+        });
 
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
