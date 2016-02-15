@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +53,7 @@ import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 
-public class RestaurantAddActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class RestaurantAddActivity extends NavigationDrawerActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOOOOOOD";
@@ -146,6 +147,9 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // connect NavigationDrawerActivity actions
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapMini);

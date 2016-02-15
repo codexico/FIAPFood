@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +43,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class RestaurantEditActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class RestaurantEditActivity extends NavigationDrawerActivity implements OnMapReadyCallback {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOODEDIT";
 
@@ -89,6 +90,10 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // connect NavigationDrawerActivity actions
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ButterKnife.bind(this);
 
