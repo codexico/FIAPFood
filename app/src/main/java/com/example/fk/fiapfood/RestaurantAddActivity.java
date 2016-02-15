@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,6 +50,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
+
 
 public class RestaurantAddActivity extends AppCompatActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
@@ -99,14 +101,11 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     // helpers
     //////////////
-    private void logMethodName(Object o) {
-        Log.w(TAG, "method: " + o.getClass().getEnclosingMethod().getName());
-    }
 
     // useful when developing
     // drop database if migration is needed
     private Realm getRealm(Context context){
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
@@ -134,7 +133,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         super.onCreate(savedInstanceState);
@@ -159,7 +158,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @OnClick(R.id.btSaveRestaurant)
     public void saveRestaurant(View view) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         realm.beginTransaction();
@@ -199,7 +198,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     // google map
     //////////////
     protected synchronized void buildGoogleApiClient() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -224,7 +223,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
      * updates.
      */
     protected void createLocationRequest() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         mLocationRequest = new LocationRequest();
@@ -244,7 +243,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
 
     private void showLocation(Location location) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         double lat = location.getLatitude();
@@ -260,7 +259,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         mMap = googleMap;
@@ -272,7 +271,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onConnected(Bundle bundle) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -294,7 +293,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
      * Requests location updates from the FusedLocationApi.
      */
     protected void startLocationUpdates() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
@@ -317,19 +316,19 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onConnectionSuspended(int i) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         showLocation(currentLocation);
@@ -337,7 +336,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onStart() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         super.onStart();
@@ -346,7 +345,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onResume() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         super.onResume();
@@ -361,7 +360,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onPause() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         super.onPause();
@@ -373,7 +372,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onStop() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         mGoogleApiClient.disconnect();
@@ -389,14 +388,14 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     //////////////
     @OnClick(R.id.btTakePhoto)
     public void onClickTakePhoto(View view) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         dispatchTakePictureIntent();
     }
 
     private void dispatchTakePictureIntent() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -425,7 +424,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
 
     private File createImageFile() throws IOException {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -450,7 +449,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
@@ -460,7 +459,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void previewCapturedImage() {
-        logMethodName(new Object() {
+        Helper.logMethodName(new Object() {
         });
 
         try {

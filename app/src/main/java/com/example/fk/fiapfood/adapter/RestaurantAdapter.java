@@ -1,12 +1,17 @@
-package com.example.fk.fiapfood.adapter;
+ package com.example.fk.fiapfood.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fk.fiapfood.R;
+import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 
 import java.util.List;
@@ -16,12 +21,43 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public IMyViewHolderClicks mListener;
+
+        public ImageView iv_photo;
         public TextView tv_name;
-        public ViewHolder(View itemView) {
+        public TextView tv_price;
+        public TextView tv_type;
+
+        public ViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
+
+            mListener = listener;
+
+            iv_photo = (ImageView) itemView.findViewById(R.id.iv_photo);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_price = (TextView) itemView.findViewById(R.id.tv_price);
+            tv_type = (TextView) itemView.findViewById(R.id.tv_type);
+
+            iv_photo.setOnClickListener(this);
+            tv_type.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Helper.logMethodName(new Object() {
+            });
+
+            if (v instanceof ImageView){
+                mListener.onTomato((ImageView)v, getAdapterPosition());
+            } else {
+                mListener.onPotato(v, getAdapterPosition());
+            }
+        }
+        public static interface IMyViewHolderClicks {
+            public void onPotato(View caller, int adapterPosition);
+            public void onTomato(ImageView callerImage, int adapterPosition);
         }
     }
 
@@ -34,18 +70,66 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public RestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Helper.logMethodName(new Object() {
+        });
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_restaurant, parent, false);
-        return new ViewHolder(v);
+
+        RestaurantAdapter.ViewHolder vh = new ViewHolder(v,
+                new RestaurantAdapter.ViewHolder.IMyViewHolderClicks() {
+            public void onPotato(View caller, int position) {
+                Log.w("asdf", "Poh-tah-tos");
+                Log.w("asdf", String.valueOf(caller.getId()));
+                Log.w("asdf", String.valueOf(position));
+
+            };
+            public void onTomato(ImageView callerImage, int position) {
+                Log.w("asdf", "To-m8-tohs");
+            }
+        });
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv_name.setText(restaurantList.get(position).getName());
+        Helper.logMethodName(new Object() {
+        });
+
+        Restaurant restaurant = restaurantList.get(position);
+
+        if (restaurant.getName() != null) {
+            holder.tv_name.setText(restaurant.getName());
+        }
+        if (String.valueOf(restaurant.getPrice()) != null) {
+            holder.tv_price.setText(String.valueOf(restaurant.getPrice()));
+        }
+        if (restaurant.getType() != null) {
+            holder.tv_type.setText(restaurant.getType());
+        }
+
+        if (restaurant.getImageUrl() != null) {
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                // prevent OutOfMemory for many large images
+                options.inSampleSize = 8;
+
+                final Bitmap bitmap = BitmapFactory.decodeFile(restaurant.getImageUrl(), options);
+
+                holder.iv_photo.setImageBitmap(bitmap);
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
+        Helper.logMethodName(new Object() {
+        });
+
         return restaurantList.size();
     }
 
