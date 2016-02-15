@@ -49,15 +49,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             Helper.logMethodName(new Object() {
             });
 
-            if (v instanceof ImageView){
-                mListener.onTomato((ImageView)v, getAdapterPosition());
-            } else {
-                mListener.onPotato(v, getAdapterPosition());
-            }
+            mListener.onClickRestaurant(v, getAdapterPosition());
         }
         public static interface IMyViewHolderClicks {
-            public void onPotato(View caller, int adapterPosition);
-            public void onTomato(ImageView callerImage, int adapterPosition);
+            public void onClickRestaurant(View caller, int adapterPosition);
         }
     }
 
@@ -78,15 +73,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         RestaurantAdapter.ViewHolder vh = new ViewHolder(v,
                 new RestaurantAdapter.ViewHolder.IMyViewHolderClicks() {
-            public void onPotato(View caller, int position) {
-                Log.w("asdf", "Poh-tah-tos");
-                Log.w("asdf", String.valueOf(caller.getId()));
+            public void onClickRestaurant(View caller, int position) {
                 Log.w("asdf", String.valueOf(position));
-
+                Restaurant restaurant = restaurantList.get(position);
+                Log.w("asdf", restaurant.getName());
             };
-            public void onTomato(ImageView callerImage, int position) {
-                Log.w("asdf", "To-m8-tohs");
-            }
         });
         return vh;
     }
