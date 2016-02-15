@@ -137,6 +137,10 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
     }
 
+    private void goToMainListActivity() {
+        Intent i = new Intent(RestaurantEditActivity.this, MainListActivity.class);
+        startActivity(i);
+    }
 
 
     @OnClick(R.id.btSaveRestaurant)
@@ -173,8 +177,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         Log.w(TAG, Integer.toString(allRestaurants.size()));
 
-        Intent i = new Intent(RestaurantEditActivity.this, MainListActivity.class);
-        startActivity(i);
+        goToMainListActivity();
     }
 
 
@@ -293,5 +296,13 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         }
     }
 
+    @OnClick(R.id.btDeleteRestaurant)
+    public void deleteRestaurant(View view) {
+        realm.beginTransaction();
+        restaurant.removeFromRealm();
+        realm.commitTransaction();
+
+        goToMainListActivity();
+    }
 }
 
