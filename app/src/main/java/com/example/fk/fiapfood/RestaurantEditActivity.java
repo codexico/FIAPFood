@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.fk.fiapfood.helper.Helper;
@@ -55,6 +56,11 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
     @Bind(R.id.etPrice) EditText etPrice;
     @Bind(R.id.etObservation) EditText etObservation;
 
+    @Bind(R.id.radio_rodizio) RadioButton radio_rodizio;
+    @Bind(R.id.radio_fast_food) RadioButton radio_fast_food;
+    @Bind(R.id.radio_delivery) RadioButton radio_delivery;
+    @Bind(R.id.radio_undefined) RadioButton radio_undefined;
+
 
     //////////////
     // photo vars
@@ -73,6 +79,9 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Helper.logMethodName(new Object() {
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -102,6 +111,12 @@ public class RestaurantEditActivity extends AppCompatActivity implements OnMapRe
         mapFragment.getMapAsync(this);
 
         previewSavedImage();
+
+        etName.setText(restaurant.getName());
+        etPhone.setText(restaurant.getPhone());
+        etPrice.setText(String.valueOf(restaurant.getPrice()));
+        etObservation.setText(restaurant.getObservation());
+        rgType.check(restaurant.getType());
     }
 
 

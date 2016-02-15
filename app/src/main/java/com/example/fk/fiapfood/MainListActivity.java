@@ -9,19 +9,50 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.fk.fiapfood.adapter.RestaurantAdapter;
+import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 
 public class MainListActivity extends AppCompatActivity {
+
+    protected static final String TAG = "FIAPFOOOOOOOOOOOOODLIST";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Realm realm;
+
+    // useful when developing
+    // drop database if migration is needed
+    private Realm getRealm(Context context){
+        Helper.logMethodName(new Object() {
+        });
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
+
+        try {
+            return Realm.getInstance(realmConfiguration);
+        } catch (RealmMigrationNeededException e){
+            try {
+                Log.w(TAG, "drop database");
+                realmConfiguration = new RealmConfiguration.Builder(context)
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                // Delete database and build a new one
+                return Realm.getInstance(realmConfiguration);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +75,8 @@ public class MainListActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        realm = Realm.getInstance(this);
+//        realm = Realm.getInstance(this);
+        realm = getRealm(this);
 
         mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
         mRecyclerView.setAdapter(mAdapter);

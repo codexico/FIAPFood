@@ -171,7 +171,7 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
 
         int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
         RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
-        restaurant.setType(rbSelected.getText().toString());
+        restaurant.setType(rbSelected.getId());
 
         restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
 
@@ -191,6 +191,9 @@ public class RestaurantAddActivity extends AppCompatActivity implements OnMapRea
         RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
 
         Log.w(TAG, Integer.toString(allRestaurants.size()));
+
+        Intent i = new Intent(RestaurantAddActivity.this, MainListActivity.class);
+        startActivity(i);
     }
 
 

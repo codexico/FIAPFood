@@ -11,7 +11,7 @@ public class Restaurant extends RealmObject {
     private String name;
     private String phone;
     @Index
-    private String type;
+    private int type;
     @Index
     private int price;
     private String observation;
@@ -43,11 +43,11 @@ public class Restaurant extends RealmObject {
         this.phone = phone;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
