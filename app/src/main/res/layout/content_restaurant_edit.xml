@@ -12,6 +12,6 @@
     tools:context="com.example.fk.fiapfood.RestaurantEditActivity"
     tools:showIn="@layout/activity_restaurant_edit">
 
-    <include layout="@layout/activity_restaurant_add" />
+    <include layout="@layout/content_restaurant_add" />
 
 </RelativeLayout>
