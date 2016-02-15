@@ -89,7 +89,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent intent = new Intent(this, RestaurantAddActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_map) {
-
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);

@@ -2,26 +2,51 @@ package com.example.fk.fiapfood;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.fk.fiapfood.helper.Helper;
+import com.example.fk.fiapfood.model.Restaurant;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    protected static final String TAG = "FIAPFOOOOOOOOOOOOOODMAP";
+
+    private Realm realm;
+
+    RealmQuery<Restaurant> restaurantQuery;
+    RealmResults<Restaurant> restaurantList;
+
     private GoogleMap mMap;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Helper.logMethodName(new Object() {
+        });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        realm = Realm.getInstance(this);
+
+        restaurantList = realm.where(Restaurant.class).findAll();
+        Log.w(TAG, Integer.toString(restaurantList.size()));
     }
 
 
@@ -36,11 +61,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Helper.logMethodName(new Object() {
+        });
+
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        addRestaurantsToMap();
     }
+
+    private void addRestaurantsToMap() {
+        Helper.logMethodName(new Object() {
+        });
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        for (Restaurant restaurant : restaurantList) {
+            double lat = restaurant.getLatitude();
+            double lng = restaurant.getLongitude();
+            LatLng here = new LatLng(lat, lng);
+
+            builder.include(mMap.addMarker(
+                    new MarkerOptions().position(here).title(restaurant.getName()))
+                    .getPosition());
+        }
+
+        LatLngBounds bounds = builder.build();
+
+        int padding = 0; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        mMap.moveCamera(cu);
+    }
+
 }
