@@ -170,8 +170,17 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         Restaurant restaurant = realm.createObject(Restaurant.class);
 
         restaurant.setName(etName.getText().toString());
-        restaurant.setPhone(etPhone.getText().toString());
-        restaurant.setObservation(etObservation.getText().toString());
+
+        String phone = etPhone.getText().toString();
+        if (phone != null && !phone.isEmpty()) {
+            restaurant.setPhone(phone);
+        }
+
+
+        String observation = etObservation.getText().toString();
+        if (observation != null && !observation.isEmpty()) {
+            restaurant.setObservation(observation);
+        }
 
         int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
         RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
@@ -193,9 +202,16 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
         restaurant.setType(type);
 
-        restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
 
-        restaurant.setImageUrl(fileUri.getPath());
+        String price = etPrice.getText().toString();
+        if (price != null && !price.isEmpty()) {
+            restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
+        }
+
+
+        if (fileUri != null && !fileUri.getPath().isEmpty()) {
+            restaurant.setImageUrl(fileUri.getPath());
+        }
 
         restaurant.setLatitude(currentLocation.getLatitude());
         restaurant.setLongitude(currentLocation.getLongitude());

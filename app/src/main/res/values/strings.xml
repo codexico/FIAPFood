@@ -37,4 +37,13 @@
     <string name="app_developer_rm">RM 40127</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="search">Search</string>
+    <string name="map">Map</string>
+    <string name="add_restaurant">Add Restaurant</string>
+    <string name="see_all">See all</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="any">Any</string>
+    <string name="title_activity_results">ResultsActivity</string>
 </resources>

@@ -94,6 +94,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_search) {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         }

@@ -6,19 +6,23 @@
         <item
             android:id="@+id/nav_list"
             android:icon="@android:drawable/ic_media_play"
-            android:title="See all" />
+            android:title="@string/see_all" />
         <item
             android:id="@+id/nav_add"
             android:icon="@android:drawable/ic_input_add"
-            android:title="Add Restaurant" />
+            android:title="@string/add_restaurant" />
         <item
             android:id="@+id/nav_map"
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Map" />
+            android:title="@string/map" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/search" />
         <item
             android:id="@+id/nav_about"
             android:icon="@android:drawable/ic_dialog_info"
-            android:title="About" />
+            android:title="@string/about" />
     </group>
 
 
@@ -27,7 +31,7 @@
             <item
                 android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Settings" />
+                android:title="@string/settings" />
         </menu>
     </item>
 
