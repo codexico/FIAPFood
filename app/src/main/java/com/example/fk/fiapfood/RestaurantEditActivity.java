@@ -114,7 +114,23 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         etPhone.setText(restaurant.getPhone());
         etPrice.setText(String.valueOf(restaurant.getPrice()));
         etObservation.setText(restaurant.getObservation());
-        rgType.check(restaurant.getType());
+
+        Log.w(TAG, String.valueOf(restaurant.getType()));
+
+        // TODO: DRY
+        switch(restaurant.getType()) {
+            case 1:
+                rgType.check(R.id.radio_rodizio);
+                break;
+            case 2:
+                rgType.check(R.id.radio_fast_food);
+                break;
+            case 3:
+                rgType.check(R.id.radio_delivery);
+                break;
+            default:
+                rgType.check(R.id.radio_undefined);
+        }
     }
 
 
@@ -156,7 +172,21 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
         RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
-        restaurant.setType(rbSelected.getId());
+
+        // TODO: DRY
+        int type = 0; // R.id.radio_undefined
+        switch(rbSelected.getId()) {
+            case R.id.radio_rodizio:
+                type = 1;
+                break;
+            case R.id.radio_fast_food:
+                type = 2;
+                break;
+            case R.id.radio_delivery:
+                type = 3;
+                break;
+        }
+        restaurant.setType(type);
 
         restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
 

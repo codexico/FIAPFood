@@ -33,7 +33,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         public ImageView iv_photo;
         public TextView tv_name;
         public TextView tv_price;
-        public TextView tv_type;
+        public TextView tv_phone;
 
         public ViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
@@ -43,10 +43,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             iv_photo = (ImageView) itemView.findViewById(R.id.iv_photo);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
-            tv_type = (TextView) itemView.findViewById(R.id.tv_type);
+            tv_phone = (TextView) itemView.findViewById(R.id.tv_phone);
 
-            iv_photo.setOnClickListener(this);
-            tv_type.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -105,8 +104,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         if (String.valueOf(restaurant.getPrice()) != null) {
             holder.tv_price.setText(String.valueOf(restaurant.getPrice()));
         }
-        if (restaurant.getType() > -1) {
-            holder.tv_type.setText(restaurant.getType());
+        if (String.valueOf(restaurant.getPhone()) != null) {
+            holder.tv_phone.setText(String.valueOf(restaurant.getPhone()));
         }
 
         if (restaurant.getImageUrl() != null) {

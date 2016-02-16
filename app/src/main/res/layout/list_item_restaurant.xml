@@ -45,11 +45,10 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/tv_type"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_below="@+id/tv_name"
                 android:layout_alignParentRight="true"
                 />

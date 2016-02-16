@@ -175,7 +175,23 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
         int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
         RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
-        restaurant.setType(rbSelected.getId());
+
+
+        // TODO: DRY
+        int type = 0; // R.id.radio_undefined
+        switch(rbSelected.getId()) {
+            case R.id.radio_rodizio:
+                type = 1;
+                break;
+            case R.id.radio_fast_food:
+                type = 2;
+                break;
+            case R.id.radio_delivery:
+                type = 3;
+                break;
+        }
+
+        restaurant.setType(type);
 
         restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
 
