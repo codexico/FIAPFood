@@ -34,7 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     protected void onCreate(Bundle savedInstanceState) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -61,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mMap = googleMap;
@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addRestaurantsToMap() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();

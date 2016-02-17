@@ -23,6 +23,8 @@ import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
+    protected static final String TAG = "FIAPFOOOOOOOOOODADAPTER";
+    
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -50,7 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            Helper.logMethodName(new Object() {
+            Helper.logMethodName(TAG, new Object() {
             });
 
             mListener.onClickRestaurant(v, getAdapterPosition());
@@ -76,7 +78,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public RestaurantAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         final View v = LayoutInflater.from(parent.getContext())
@@ -93,7 +95,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Restaurant restaurant = restaurantList.get(position);
@@ -127,7 +129,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public int getItemCount() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         return restaurantList.size();

@@ -81,7 +81,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         super.onCreate(savedInstanceState);
@@ -140,7 +140,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     //////////////
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mMap = googleMap;
@@ -161,7 +161,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
     @OnClick(R.id.btSaveRestaurant)
     public void saveRestaurant(View view) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         realm.beginTransaction();
@@ -216,14 +216,14 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     //////////////
     @OnClick(R.id.btTakePhoto)
     public void onClickTakePhoto(View view) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         dispatchTakePictureIntent();
     }
 
     private void dispatchTakePictureIntent() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -252,7 +252,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
 
     private File createImageFile() throws IOException {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -277,7 +277,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
@@ -287,7 +287,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     }
 
     private void previewCapturedImage() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         try {
@@ -306,7 +306,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     }
 
     private void previewSavedImage() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Log.w(TAG, restaurant.getImageUrl());

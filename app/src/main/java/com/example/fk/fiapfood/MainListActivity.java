@@ -59,7 +59,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     // useful when developing
     // drop database if migration is needed
     private Realm getRealm(Context context){
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
@@ -84,7 +84,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         setContentView(R.layout.activity_main_list);
@@ -126,7 +126,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     }
 
     private void checkInitialData() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         if (!isLoaded()) {
@@ -135,7 +135,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     }
 
     private void loadInitialData() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         String stringUrl = "http://heiderlopes.com.br/restaurantes/restaurantes.json";
@@ -156,7 +156,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            Helper.logMethodName(new Object() {
+            Helper.logMethodName(TAG, new Object() {
             });
 
             // params comes from the execute() call: params[0] is the url.
@@ -169,7 +169,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            Helper.logMethodName(new Object() {
+            Helper.logMethodName(TAG, new Object() {
             });
 
             Log.w(TAG, result);
@@ -231,7 +231,7 @@ public class MainListActivity extends NavigationDrawerActivity {
 // the web page content as a InputStream, which it returns as
 // a string.
     private String downloadUrl(String myurl) throws IOException {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         InputStream is = null;
@@ -263,7 +263,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     }
     // Reads an InputStream and converts it to a String.
     public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Reader reader = new InputStreamReader(stream, "UTF-8");
@@ -279,7 +279,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     }
 
     private boolean isLoaded() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         SharedPreferences initialData = getSharedPreferences(INITIALDATA_PREFS, MODE_PRIVATE);
@@ -287,7 +287,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     }
 
     private void goToAddStuffActivity() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Intent i = new Intent(MainListActivity.this, RestaurantAddActivity.class);

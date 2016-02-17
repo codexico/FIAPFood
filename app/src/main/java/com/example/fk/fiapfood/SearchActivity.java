@@ -48,7 +48,7 @@ public class SearchActivity extends NavigationDrawerActivity {
 
     @OnClick(R.id.btSearch)
     public void searchRestaurants(View view) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Intent i = new Intent(SearchActivity.this, ResultsActivity.class);

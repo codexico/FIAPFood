@@ -9,4 +9,8 @@ public class Helper {
     public static void logMethodName(Object o) {
         Log.w(TAG, "method: " + o.getClass().getEnclosingMethod().getName());
     }
+
+    public static void logMethodName(String classTag, Object o) {
+        Log.w(classTag, "method: " + o.getClass().getEnclosingMethod().getName());
+    }
 }

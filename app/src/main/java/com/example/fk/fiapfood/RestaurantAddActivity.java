@@ -56,7 +56,7 @@ import io.realm.exceptions.RealmMigrationNeededException;
 public class RestaurantAddActivity extends NavigationDrawerActivity implements OnMapReadyCallback,
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOOOOOOOOD";
+    protected static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
 
     private Realm realm;
 
@@ -106,7 +106,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     // useful when developing
     // drop database if migration is needed
     private Realm getRealm(Context context){
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
@@ -134,7 +134,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     //////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         super.onCreate(savedInstanceState);
@@ -162,7 +162,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @OnClick(R.id.btSaveRestaurant)
     public void saveRestaurant(View view) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         realm.beginTransaction();
@@ -237,7 +237,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     // google map
     //////////////
     protected synchronized void buildGoogleApiClient() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -262,7 +262,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
      * updates.
      */
     protected void createLocationRequest() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mLocationRequest = new LocationRequest();
@@ -282,7 +282,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
 
     private void showLocation(Location location) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         double lat = location.getLatitude();
@@ -290,7 +290,11 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         LatLng here = new LatLng(lat, lng);
 
 //        if (mMapReady && mGoogleApiClient.isConnected()) {
-            mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
+            mMap.addMarker(new MarkerOptions()
+                            .position(here)
+                            .title("Drag to adjust location")
+                            .draggable(true)
+            );
             mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
 //        }
 
@@ -298,7 +302,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mMap = googleMap;
@@ -310,7 +314,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     public void onConnected(Bundle bundle) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -332,7 +336,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
      * Requests location updates from the FusedLocationApi.
      */
     protected void startLocationUpdates() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
@@ -355,19 +359,19 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     public void onConnectionSuspended(int i) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         showLocation(currentLocation);
@@ -375,7 +379,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     protected void onStart() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         super.onStart();
@@ -384,7 +388,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     public void onResume() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         super.onResume();
@@ -399,7 +403,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     protected void onPause() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         super.onPause();
@@ -411,7 +415,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     protected void onStop() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         mGoogleApiClient.disconnect();
@@ -427,14 +431,14 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     //////////////
     @OnClick(R.id.btTakePhoto)
     public void onClickTakePhoto(View view) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         dispatchTakePictureIntent();
     }
 
     private void dispatchTakePictureIntent() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -463,7 +467,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
 
     private File createImageFile() throws IOException {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -488,7 +492,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
@@ -498,7 +502,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     }
 
     private void previewCapturedImage() {
-        Helper.logMethodName(new Object() {
+        Helper.logMethodName(TAG, new Object() {
         });
 
         try {
