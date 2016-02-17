@@ -24,6 +24,8 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
+    protected static final String TAG = "FIAPFOOOOOOOOOOODLOGIN";
+
     private final String FF_PREFS = "FF_PREFS";
     private final String KEEPSIGNEDIN = "KEEPSIGNEDIN";
 
@@ -36,8 +38,12 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.cbStay_signed_in)
     CheckBox cbStay_signed_in;
 
-    private TextView info;
-    private LoginButton fbLoginButton;
+    @Bind(R.id.tvInfo)
+    TextView tvInfo;
+
+    @Bind(R.id.fbLoginButton)
+    LoginButton fbLoginButton;
+
     private CallbackManager callbackManager;
 
     @Override
@@ -45,40 +51,36 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login);
-
-        ButterKnife.bind(this);
-
-        info = (TextView)findViewById(R.id.info);
-        fbLoginButton = (LoginButton)findViewById(R.id.fbLoginButton);
-
         callbackManager = CallbackManager.Factory.create();
 
         if (isSignedIn() || isLoggedInFB()) {
             goToMainList();
+            return;
         }
+
+        setContentView(R.layout.activity_login);
+
+        ButterKnife.bind(this);
 
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                info.setText(
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
+                tvInfo.setText(R.string.signedin);
+
+                Log.d(TAG, "User ID: " + loginResult.getAccessToken().getUserId());
+                Log.d(TAG, "Auth Token: " + loginResult.getAccessToken().getToken());
+
                 goToMainList();
             }
 
             @Override
             public void onCancel() {
-                info.setText(R.string.login_canceled);
+                tvInfo.setText(R.string.login_canceled);
             }
 
             @Override
             public void onError(FacebookException e) {
-                info.setText(R.string.login_failed);
+                tvInfo.setText(R.string.login_failed);
             }
         });
     }

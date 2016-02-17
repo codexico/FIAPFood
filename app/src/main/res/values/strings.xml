@@ -46,4 +46,5 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="any">Any</string>
     <string name="title_activity_results">ResultsActivity</string>
+    <string name="signedin">Signed in sucessfully, enjoy!</string>
 </resources>
