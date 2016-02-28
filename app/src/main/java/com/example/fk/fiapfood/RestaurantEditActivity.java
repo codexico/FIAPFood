@@ -311,18 +311,21 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         Log.w(TAG, restaurant.getImageUrl());
 
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
+        if (restaurant.getImageUrl() != "") {
 
-            // prevent OutOfMemory for many large images
-            options.inSampleSize = 8;
+            try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
 
-            final Bitmap bitmap = BitmapFactory.decodeFile(restaurant.getImageUrl(), options);
+                // prevent OutOfMemory for many large images
+                options.inSampleSize = 8;
 
-            ivPhoto.setImageBitmap(bitmap);
+                final Bitmap bitmap = BitmapFactory.decodeFile(restaurant.getImageUrl(), options);
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+                ivPhoto.setImageBitmap(bitmap);
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

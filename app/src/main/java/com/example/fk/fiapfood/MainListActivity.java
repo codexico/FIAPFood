@@ -209,6 +209,8 @@ public class MainListActivity extends NavigationDrawerActivity {
                     restaurant.setLatitude(Double.parseDouble(latLon[0]));
                     restaurant.setLongitude(Double.parseDouble(latLon[1]));
 
+                    restaurant.setImageUrl("");
+
                     realm.commitTransaction();
                 }
 

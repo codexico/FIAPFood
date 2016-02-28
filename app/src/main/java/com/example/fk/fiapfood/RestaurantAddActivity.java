@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,13 +37,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,8 +54,12 @@ import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 
-public class RestaurantAddActivity extends NavigationDrawerActivity implements OnMapReadyCallback,
-        ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class RestaurantAddActivity extends NavigationDrawerActivity implements
+        OnMapReadyCallback,
+        ConnectionCallbacks,
+        OnConnectionFailedListener,
+        LocationListener,
+        GoogleMap.OnMarkerDragListener {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
 
@@ -65,6 +70,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     @Bind(R.id.rgType) RadioGroup rgType;
     @Bind(R.id.etPrice) EditText etPrice;
     @Bind(R.id.etObservation) EditText etObservation;
+    @Bind(R.id.nsvAdd) NestedScrollView nsvAdd;
 
     //////////////
     // google map vars
@@ -74,6 +80,10 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
 
     private GoogleMap mMap;
     protected Location currentLocation;
+    private Marker marker;
+    private Boolean isMarkerDragging = false;
+    private Boolean isMarkerDraged = false;
+    private Boolean isLocationSet = false;
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
@@ -158,6 +168,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         buildGoogleApiClient();
 
         realm = getRealm(this);
+        nsvAdd.setNestedScrollingEnabled(false);
     }
 
     @OnClick(R.id.btSaveRestaurant)
@@ -289,15 +300,17 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         double lng = location.getLongitude();
         LatLng here = new LatLng(lat, lng);
 
-//        if (mMapReady && mGoogleApiClient.isConnected()) {
-            mMap.addMarker(new MarkerOptions()
-                            .position(here)
-                            .title("Drag to adjust location")
-                            .draggable(true)
-            );
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
-//        }
+        if (marker == null) {
+            marker = mMap.addMarker(new MarkerOptions()
+                    .position(here)
+                    .title("Drag to adjust location")
+                    .draggable(true));
+        } else {
+            marker.setPosition(here);
+        }
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+        isLocationSet = true;
     }
 
     @Override
@@ -306,6 +319,8 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         });
 
         mMap = googleMap;
+        mMap.setOnMarkerDragListener(this);
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
 
         if (mGoogleApiClient.isConnected()) {
             showLocation(currentLocation);
@@ -373,8 +388,9 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
     public void onLocationChanged(Location location) {
         Helper.logMethodName(TAG, new Object() {
         });
-
-        showLocation(currentLocation);
+        if (!isLocationSet) {
+            showLocation(currentLocation);
+        }
     }
 
     @Override
@@ -421,6 +437,29 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
         mGoogleApiClient.disconnect();
 
         super.onStop();
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        Helper.logMethodName(TAG, new Object() {
+        });
+        isMarkerDragging = true;
+        isMarkerDraged = true;
+        nsvAdd.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+        Helper.logMethodName(TAG, new Object() {
+        });
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        Helper.logMethodName(TAG, new Object() {
+        });
+        isMarkerDragging = false;
+        nsvAdd.setNestedScrollingEnabled(true);
     }
 
 
@@ -519,5 +558,4 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements O
             e.printStackTrace();
         }
     }
-
 }
