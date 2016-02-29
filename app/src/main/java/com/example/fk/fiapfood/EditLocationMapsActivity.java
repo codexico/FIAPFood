@@ -36,15 +36,11 @@ public class EditLocationMapsActivity extends AppCompatActivity implements OnMap
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        Intent intent = getIntent();
         Bundle b = getIntent().getExtras();
         lat = b.getDouble("lat");
         lon = b.getDouble("lon");
@@ -66,6 +62,20 @@ public class EditLocationMapsActivity extends AppCompatActivity implements OnMap
             finish();
         }
 
+        if (id == R.id.save_edit_location) {
+            LatLng center = mMap.getCameraPosition().target;
+
+            Intent i = new Intent(EditLocationMapsActivity.this, RestaurantEditActivity.class);
+
+            Bundle b = new Bundle();
+            b.putDouble("lat", center.latitude);
+            b.putDouble("lon", center.longitude);
+            i.putExtras(b);
+
+            setResult(RESULT_OK, i);
+            finish();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -81,12 +91,7 @@ public class EditLocationMapsActivity extends AppCompatActivity implements OnMap
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-
         LatLng here = new LatLng(lat, lon);
-
-        mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
     }
 }

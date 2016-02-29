@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item	android:id="@+id/save_edit_location"
+        android:title="Save"
+        android:orderInCategory="1"
+        app:showAsAction="always"	/>
+
     <item	android:id="@+id/cancel_edit_location"
         android:title="Cancel"
         android:orderInCategory="100"

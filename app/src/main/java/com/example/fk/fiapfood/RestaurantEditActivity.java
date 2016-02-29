@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
@@ -47,6 +48,7 @@ import io.realm.RealmResults;
 public class RestaurantEditActivity extends NavigationDrawerActivity implements OnMapReadyCallback {
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOODEDIT";
+    static final int GET_CENTER_LOCATION = 22;
 
     private Realm realm;
     private int oldRestaurantPosition;
@@ -79,6 +81,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     // google map vars
     //////////////
     private GoogleMap mMap;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +153,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         double lng = restaurant.getLongitude();
         LatLng here = new LatLng(lat, lng);
 
-        mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
+        marker = mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
         mMap.getUiSettings().setScrollGesturesEnabled(false);
     }
@@ -197,8 +200,8 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
             restaurant.setImageUrl(fileUri.getPath());
         }
 
-        restaurant.setLatitude(restaurant.getLatitude());
-        restaurant.setLongitude(restaurant.getLongitude());
+        restaurant.setLatitude(marker.getPosition().latitude);
+        restaurant.setLongitude(marker.getPosition().longitude);
 
         realm.commitTransaction();
 
@@ -289,6 +292,19 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
             Log.w(TAG, "INTENT READY");
             previewCapturedImage();
         }
+
+        if (requestCode == GET_CENTER_LOCATION) {
+            if (resultCode == RESULT_OK) {
+
+                double lat = data.getDoubleExtra("lat", restaurant.getLatitude());
+                double lon = data.getDoubleExtra("lon", restaurant.getLongitude());
+
+                LatLng here = new LatLng(lat, lon);
+
+                marker.setPosition(here);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+            }
+        }
     }
 
     private void previewCapturedImage() {
@@ -357,7 +373,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         b.putDouble("lon", restaurant.getLongitude());
         i.putExtras(b);
 
-        startActivity(i);
+        startActivityForResult(i, GET_CENTER_LOCATION);
     }
 }
 
