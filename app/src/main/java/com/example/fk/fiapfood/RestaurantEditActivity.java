@@ -151,6 +151,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         mMap.addMarker(new MarkerOptions().position(here).title("I'm here!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
     }
 
     private void goToMainListActivity() {
