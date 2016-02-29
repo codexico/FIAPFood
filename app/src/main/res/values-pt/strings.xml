@@ -22,4 +22,5 @@
     <string name="other">other</string>
     <string name="name_hint">Name (admin)</string>
     <string name="password_hint">Password (admin)</string>
+    <string name="edit_location">Edit Location</string>
 </resources>
