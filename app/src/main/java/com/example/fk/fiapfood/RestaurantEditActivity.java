@@ -190,7 +190,10 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
 
-        restaurant.setImageUrl(restaurant.getImageUrl());
+
+        if (fileUri != null && !fileUri.getPath().isEmpty()) {
+            restaurant.setImageUrl(fileUri.getPath());
+        }
 
         restaurant.setLatitude(restaurant.getLatitude());
         restaurant.setLongitude(restaurant.getLongitude());
