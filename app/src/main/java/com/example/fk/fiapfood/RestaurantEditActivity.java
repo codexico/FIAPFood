@@ -347,8 +347,17 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     public void editLocation(View view) {
 
         // Create the fragment and show it as a dialog.
-        MapDialog newFragment = MapDialog.newInstance();
-        newFragment.show(getFragmentManager(), "dialog");
+//        MapDialog newFragment = MapDialog.newInstance();
+//        newFragment.show(getFragmentManager(), "dialog");
+
+        Intent i = new Intent(RestaurantEditActivity.this, EditLocationMapsActivity.class);
+
+        Bundle b = new Bundle();
+        b.putDouble("lat", restaurant.getLatitude());
+        b.putDouble("lon", restaurant.getLongitude());
+        i.putExtras(b);
+
+        startActivity(i);
     }
 }
 

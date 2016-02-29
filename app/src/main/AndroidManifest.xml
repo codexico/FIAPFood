@@ -106,6 +106,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.SearchActivity" />
         </activity>
+        <activity
+            android:name=".EditLocationMapsActivity"
+            android:label="@string/title_activity_edit_location_maps"
+            android:parentActivityName=".RestaurantEditActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fk.fiapfood.RestaurantEditActivity" />
+        </activity>
     </application>
 
 </manifest>
