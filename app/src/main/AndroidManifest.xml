@@ -20,6 +20,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -31,15 +44,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".MainListActivity"
             android:label="@string/title_activity_main_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/fiapfood” -->
+                <data android:scheme="http"
+                    android:host="www.example.com"
+                    android:pathPrefix="/fiapfood" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- Accepts URIs that begin with "example://fiapfood” -->
+                <data android:scheme="example"
+                    android:host="fiapfood" />
+            </intent-filter>
+
+        </activity>
+
         <activity
             android:name=".RestaurantAddActivity"
             android:label="@string/title_activity_restaurant_add"
@@ -49,17 +82,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.MainListActivity" />
         </activity>
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".MapsActivity"
@@ -68,6 +90,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.MainListActivity" />
         </activity>
+
         <activity
             android:name=".RestaurantEditActivity"
             android:label="@string/title_activity_restaurant_edit"
@@ -77,9 +100,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.MainListActivity" />
         </activity>
+
         <activity
             android:name=".NavigationDrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
@@ -89,6 +114,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.MainListActivity" />
         </activity>
+
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
@@ -98,6 +124,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.MainListActivity" />
         </activity>
+
         <activity
             android:name=".ResultsActivity"
             android:label="@string/title_activity_results"
@@ -107,6 +134,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fk.fiapfood.SearchActivity" />
         </activity>
+
         <activity
             android:name=".EditLocationMapsActivity"
             android:label="@string/title_activity_edit_location_maps"
