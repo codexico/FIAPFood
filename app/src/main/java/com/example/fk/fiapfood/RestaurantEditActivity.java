@@ -310,7 +310,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         Helper.logMethodName(TAG, new Object() {
         });
 
-        if (restaurant.getImageUrl() != "") {
+        if (!restaurant.getImageUrl().equals("")) {
             Log.w(TAG, restaurant.getImageUrl());
 
             try {
