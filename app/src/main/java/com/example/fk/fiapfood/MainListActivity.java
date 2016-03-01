@@ -164,7 +164,7 @@ public class MainListActivity extends NavigationDrawerActivity {
             });
 
             Log.w(TAG, result);
-            JSONArray a = null;
+            JSONArray a;
             try {
                 a = new JSONArray(result);
                 for(int i=0; i < a.length(); i++) {

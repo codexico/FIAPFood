@@ -31,6 +31,7 @@ public class SearchActivity extends NavigationDrawerActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
@@ -65,17 +66,17 @@ public class SearchActivity extends NavigationDrawerActivity {
         }
 
         i.putExtra("type", type);
-        if (etName.getText().toString() != null) {
+        if (!etName.getText().toString().isEmpty()) {
             i.putExtra("name", etName.getText().toString());
         } else {
             i.putExtra("name", "");
         }
-        if (etMinPrice.getText().toString() != null) {
+        if (!etMinPrice.getText().toString().isEmpty()) {
             i.putExtra("min", etMinPrice.getText().toString());
         } else {
             i.putExtra("min", -1);
         }
-        if (etMaxPrice.getText().toString() != null) {
+        if (!etMaxPrice.getText().toString().isEmpty()) {
             i.putExtra("max", etMaxPrice.getText().toString());
         } else {
             i.putExtra("max", -1);

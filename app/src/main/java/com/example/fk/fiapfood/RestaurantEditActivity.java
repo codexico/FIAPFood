@@ -77,6 +77,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // connect NavigationDrawerActivity actions
@@ -223,7 +224,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
+            File photoFile;
             photoFile = createImageFile();
             // Continue only if the File was successfully created
             if (photoFile != null) {

@@ -99,10 +99,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         if (restaurant.getName() != null) {
             holder.tv_name.setText(restaurant.getName());
         }
-        if (String.valueOf(restaurant.getPrice()) != null) {
+        if (!String.valueOf(restaurant.getPrice()).isEmpty()) {
             holder.tv_price.setText(String.valueOf(restaurant.getPrice()));
         }
-        if (String.valueOf(restaurant.getPhone()) != null) {
+        if (!String.valueOf(restaurant.getPhone()).isEmpty()) {
             holder.tv_phone.setText(String.valueOf(restaurant.getPhone()));
         }
 

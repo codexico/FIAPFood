@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -152,6 +153,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // connect NavigationDrawerActivity actions
@@ -180,13 +182,13 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         restaurant.setName(etName.getText().toString());
 
         String phone = etPhone.getText().toString();
-        if (phone != null && !phone.isEmpty()) {
+        if (!phone.isEmpty()) {
             restaurant.setPhone(phone);
         }
 
 
         String observation = etObservation.getText().toString();
-        if (observation != null && !observation.isEmpty()) {
+        if (!observation.isEmpty()) {
             restaurant.setObservation(observation);
         }
 
@@ -212,7 +214,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
 
         String price = etPrice.getText().toString();
-        if (price != null && !price.isEmpty()) {
+        if (!price.isEmpty()) {
             restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
         }
 
@@ -378,7 +380,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Helper.logMethodName(TAG, new Object() {
         });
     }
@@ -442,7 +444,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     public void onMarkerDragStart(Marker marker) {
         Helper.logMethodName(TAG, new Object() {
         });
-        Boolean isMarkerDraged = true;
+//        Boolean isMarkerDraged = true;
         nsvAdd.setNestedScrollingEnabled(false);
     }
 
@@ -482,7 +484,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
+            File photoFile;
             photoFile = createImageFile();
             // Continue only if the File was successfully created
             if (photoFile != null) {
