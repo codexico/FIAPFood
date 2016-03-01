@@ -22,9 +22,6 @@ import io.realm.RealmQuery;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private Realm realm;
 
     private int type;
@@ -66,16 +63,16 @@ public class ResultsActivity extends AppCompatActivity {
         type = intent.getIntExtra("type", -1);
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         realm = Realm.getInstance(this);
 
 //        mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
-        mAdapter = new RestaurantAdapter(searchRestaurants());
+        RecyclerView.Adapter mAdapter = new RestaurantAdapter(searchRestaurants());
         mRecyclerView.setAdapter(mAdapter);
     }
 

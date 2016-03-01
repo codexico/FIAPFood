@@ -51,9 +51,6 @@ public class MainListActivity extends NavigationDrawerActivity {
     private final String INITIALDATA_PREFS = "INITIALDATA_PREFS";
     private final String ISLOADED = "ISLOADED";
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private Realm realm;
 
     // useful when developing
@@ -109,10 +106,10 @@ public class MainListActivity extends NavigationDrawerActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 //        realm = Realm.getInstance(this);
@@ -121,7 +118,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         Log.w(TAG, "ISLOADED: " + isLoaded());
         checkInitialData();
 
-        mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
+        RecyclerView.Adapter mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -83,7 +83,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     protected Location currentLocation;
     private Marker marker;
     private Boolean isMarkerDragging = false;
-    private Boolean isMarkerDraged = false;
     private Boolean isLocationSet = false;
 
     /**
@@ -445,7 +444,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         Helper.logMethodName(TAG, new Object() {
         });
         isMarkerDragging = true;
-        isMarkerDraged = true;
+        Boolean isMarkerDraged = true;
         nsvAdd.setNestedScrollingEnabled(false);
     }
 

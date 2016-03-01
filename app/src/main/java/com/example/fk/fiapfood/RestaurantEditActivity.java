@@ -52,7 +52,6 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     static final int GET_CENTER_LOCATION = 22;
 
     private Realm realm;
-    private int oldRestaurantPosition;
     private Restaurant restaurant;
 
 
@@ -103,7 +102,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        oldRestaurantPosition = intent.getIntExtra("restaurant", 0);
+        int oldRestaurantPosition = intent.getIntExtra("restaurant", 0);
 
         realm = Realm.getInstance(this);
 

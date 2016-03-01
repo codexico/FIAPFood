@@ -26,8 +26,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     protected static final String TAG = "FIAPFOOOOOOOOOOOOOODMAP";
 
-    private Realm realm;
-
     RealmQuery<Restaurant> restaurantQuery;
     RealmResults<Restaurant> restaurantList;
 
@@ -43,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        realm = Realm.getInstance(this);
+        Realm realm = Realm.getInstance(this);
 
         restaurantList = realm.where(Restaurant.class).findAll();
         Log.w(TAG, Integer.toString(restaurantList.size()));
