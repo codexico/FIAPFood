@@ -57,8 +57,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
             mListener.onClickRestaurant(v, getAdapterPosition());
         }
-        public static interface IMyViewHolderClicks {
-            public void onClickRestaurant(View caller, int adapterPosition);
+        public interface IMyViewHolderClicks {
+            void onClickRestaurant(View caller, int adapterPosition);
         }
     }
 
@@ -88,8 +88,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 new RestaurantAdapter.ViewHolder.IMyViewHolderClicks() {
             public void onClickRestaurant(View caller, int position) {
                 goToRestaurantItemActivity(parent.getContext(), position);
-            };
-        });
+            }
+                });
         return vh;
     }
 
