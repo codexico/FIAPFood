@@ -263,7 +263,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         }
     }
     // Reads an InputStream and converts it to a String.
-    private String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+    private String readIt(InputStream stream) throws IOException {
         Helper.logMethodName(TAG, new Object() {
         });
 

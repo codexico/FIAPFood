@@ -259,7 +259,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     }
 
 
-    private File createImageFile() throws IOException {
+    private File createImageFile() {
         Helper.logMethodName(TAG, new Object() {
         });
 
