@@ -62,7 +62,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         LocationListener,
         GoogleMap.OnMarkerDragListener {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
+    private static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
 
     private Realm realm;
 
@@ -76,11 +76,11 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     //////////////
     // google map vars
     //////////////
-    protected GoogleApiClient mGoogleApiClient;
-    protected LocationRequest mLocationRequest;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
     private GoogleMap mMap;
-    protected Location currentLocation;
+    private Location currentLocation;
     private Marker marker;
     private Boolean isMarkerDragging = false;
     private Boolean isLocationSet = false;
@@ -88,13 +88,13 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
 
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
      */
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
 
@@ -105,7 +105,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
     @Bind(R.id.ivPhoto) ImageView ivPhoto;
 
-    static final int REQUEST_TAKE_PHOTO = 11;
+    private static final int REQUEST_TAKE_PHOTO = 11;
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
 
@@ -247,7 +247,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     //////////////
     // google map
     //////////////
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -272,7 +272,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
      * These settings are appropriate for mapping applications that show real-time location
      * updates.
      */
-    protected void createLocationRequest() {
+    private void createLocationRequest() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -350,7 +350,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     /**
      * Requests location updates from the FusedLocationApi.
      */
-    protected void startLocationUpdates() {
+    private void startLocationUpdates() {
         Helper.logMethodName(TAG, new Object() {
         });
 

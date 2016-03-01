@@ -48,8 +48,8 @@ import io.realm.RealmResults;
 
 public class RestaurantEditActivity extends NavigationDrawerActivity implements OnMapReadyCallback {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOOOODEDIT";
-    static final int GET_CENTER_LOCATION = 22;
+    private static final String TAG = "FIAPFOOOOOOOOOOOOODEDIT";
+    private static final int GET_CENTER_LOCATION = 22;
 
     private Realm realm;
     private Restaurant restaurant;
@@ -74,7 +74,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
     @Bind(R.id.ivPhoto) ImageView ivPhoto;
 
-    static final int REQUEST_TAKE_PHOTO = 11;
+    private static final int REQUEST_TAKE_PHOTO = 11;
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
     //////////////

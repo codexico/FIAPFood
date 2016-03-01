@@ -24,7 +24,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOODLOGIN";
+    private static final String TAG = "FIAPFOOOOOOOOOOODLOGIN";
 
     private final String FF_PREFS = "FF_PREFS";
     private final String KEEPSIGNEDIN = "KEEPSIGNEDIN";
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public boolean isLoggedInFB() {
+    private boolean isLoggedInFB() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }

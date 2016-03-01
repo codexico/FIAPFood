@@ -46,7 +46,7 @@ import io.realm.exceptions.RealmMigrationNeededException;
 
 public class MainListActivity extends NavigationDrawerActivity {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOOOODLIST";
+    private static final String TAG = "FIAPFOOOOOOOOOOOOODLIST";
 
     private final String INITIALDATA_PREFS = "INITIALDATA_PREFS";
     private final String ISLOADED = "ISLOADED";
@@ -252,8 +252,7 @@ public class MainListActivity extends NavigationDrawerActivity {
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            String contentAsString = readIt(is);
-            return contentAsString;
+            return readIt(is);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -264,7 +263,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         }
     }
     // Reads an InputStream and converts it to a String.
-    public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+    private String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
         Helper.logMethodName(TAG, new Object() {
         });
 

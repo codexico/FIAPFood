@@ -23,19 +23,19 @@ import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOODADAPTER";
+    private static final String TAG = "FIAPFOOOOOOOOOODADAPTER";
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public IMyViewHolderClicks mListener;
+        public final IMyViewHolderClicks mListener;
 
-        public ImageView iv_photo;
-        public TextView tv_name;
-        public TextView tv_price;
-        public TextView tv_phone;
+        public final ImageView iv_photo;
+        public final TextView tv_name;
+        public final TextView tv_price;
+        public final TextView tv_phone;
 
         public ViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
@@ -84,13 +84,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         final View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_restaurant, parent, false);
 
-        RestaurantAdapter.ViewHolder vh = new ViewHolder(v,
-                new RestaurantAdapter.ViewHolder.IMyViewHolderClicks() {
+        return new ViewHolder(v,
+                new ViewHolder.IMyViewHolderClicks() {
             public void onClickRestaurant(View caller, int position) {
                 goToRestaurantItemActivity(parent.getContext(), position);
             }
                 });
-        return vh;
     }
 
     @Override

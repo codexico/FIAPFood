@@ -24,10 +24,10 @@ import io.realm.RealmResults;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOOOOODMAP";
+    private static final String TAG = "FIAPFOOOOOOOOOOOOOODMAP";
 
     RealmQuery<Restaurant> restaurantQuery;
-    RealmResults<Restaurant> restaurantList;
+    private RealmResults<Restaurant> restaurantList;
 
     private GoogleMap mMap;
 

@@ -26,7 +26,7 @@ import io.realm.RealmResults;
 
 public class SearchActivity extends NavigationDrawerActivity {
 
-    protected static final String TAG = "FIAPFOOOOOOOOOOODSEARCH";
+    private static final String TAG = "FIAPFOOOOOOOOOOODSEARCH";
 
     @Bind(R.id.etSearchName) EditText etName;
     @Bind(R.id.rgSearchType) RadioGroup rgType;

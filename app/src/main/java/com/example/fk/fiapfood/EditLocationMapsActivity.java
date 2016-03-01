@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class EditLocationMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    protected static final String TAG = "FIAPFOOOOOOOOODLOCATION";
+    private static final String TAG = "FIAPFOOOOOOOOODLOCATION";
 
     private GoogleMap mMap;
 
