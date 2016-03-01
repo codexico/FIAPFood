@@ -221,7 +221,10 @@ public class MainListActivity extends NavigationDrawerActivity {
                     SharedPreferences sp = getSharedPreferences(INITIALDATA_PREFS, MODE_PRIVATE);
                     Editor e = sp.edit();
                     e.putBoolean(ISLOADED, true);
-                    e.commit();
+                    // Consider using apply() instead; commit writes its data to persistent storage
+                    // immediately, whereas apply will handle it in the background
+                    // e.commit();
+                    e.apply();
                     Log.w(TAG, "ISLOADED: " + isLoaded());
                 }
             } catch (JSONException e) {
