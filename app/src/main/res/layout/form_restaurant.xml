@@ -4,7 +4,7 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wr">
 
     <Button
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         />
 
     <ImageView
+        android:contentDescription="@string/restaurant_img"
         android:id="@+id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:digits="0123456789"
                 android:inputType="numberDecimal"
-                android:hint="00"
+                android:hint="@string/hint_value"
                 />
 
         </android.support.design.widget.TextInputLayout>

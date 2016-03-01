@@ -73,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Min"
+            android:text="@string/min"
             android:layout_weight="1"
             />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:digits="0123456789"
                 android:inputType="numberDecimal"
-                android:hint="00"
+                android:hint="@string/hint_value"
                 />
 
         </android.support.design.widget.TextInputLayout>
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Max"
+            android:text="@string/max"
             android:layout_weight="1"
             />
 
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:digits="0123456789"
                 android:inputType="numberDecimal"
-                android:hint="00"
+                android:hint="@string/hint_value"
                 />
 
         </android.support.design.widget.TextInputLayout>
