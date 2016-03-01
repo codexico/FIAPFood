@@ -1,5 +1,5 @@
 <resources>
-    <string name="facebook_app_id">1569409960050648</string>
+    <string name="facebook_app_id" translatable="false">1569409960050648</string>
 
     <string name="app_name">FiapFood</string>
     <string name="welcome">Welcome</string>
