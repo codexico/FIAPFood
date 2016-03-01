@@ -1,26 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FiapFood</string>
-    <string name="welcome">Welcome</string>
-    <string name="stay_signed_in">Stay signed in</string>
-    <string name="sign_in">Sign in</string>
-    <string name="login_invalid">Name or password invalid, try again</string>
+    <string name="welcome">Bem-vindo!</string>
+    <string name="stay_signed_in">Manter conectado</string>
+    <string name="sign_in">Entrar</string>
+    <string name="login_invalid">Nome ou senha inválidos, tente novamente</string>
 
-    <string name="login_canceled">Login attempt canceled.</string>
-    <string name="login_failed">Login attempt failed.</string>
-    <string name="title_activity_main_list">MainListActivity</string>
-    <string name="title_activity_restaurant_add">RestaurantAddActivity</string>
-    <string name="name">Name</string>
-    <string name="save">Save</string>
-    <string name="phone">Phone</string>
+    <string name="login_canceled">Tentativa de login cancelada.</string>
+    <string name="login_failed">O login falhou.</string>
+    <string name="title_activity_main_list">Restaurantes</string>
+    <string name="title_activity_restaurant_add">Adicionar</string>
+    <string name="name">Nome</string>
+    <string name="save">Salvar</string>
+    <string name="phone">Fone</string>
     <string name="delivery">delivery</string>
     <string name="fast_food">fast food</string>
     <string name="rodizio">rodízio</string>
-    <string name="price">Price $</string>
-    <string name="decimal">.00</string>
-    <string name="observation">Observation</string>
-    <string name="other">other</string>
-    <string name="name_hint">Name (admin)</string>
-    <string name="password_hint">Password (admin)</string>
-    <string name="edit_location">Edit Location</string>
+    <string name="price">Valor R$</string>
+    <string name="decimal">,00</string>
+    <string name="observation">Observação</string>
+    <string name="other">outro</string>
+    <string name="name_hint">Nome (admin)</string>
+    <string name="password_hint">Senha (admin)</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="take_photo">Tirar foto</string>
+    <string name="title_activity_restaurant_edit">Editar Restaurante</string>
+
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Fechar menu</string>
+
+    <string name="action_settings">Configurações</string>
+    <string name="title_activity_about">Sobre</string>
+    <string name="app_version">v0.1</string>
+    <string name="app_developer">Francisco Kahil</string>
+    <string name="app_developer_rm">RM 40127</string>
+    <string name="delete">Deletar</string>
+    <string name="edit">Editar</string>
+    <string name="search">Buscar</string>
+    <string name="map">Mapa</string>
+    <string name="add_restaurant">Adicionar Restaurante</string>
+    <string name="see_all">Todos</string>
+    <string name="about">Sobre</string>
+    <string name="settings">Configurações</string>
+    <string name="title_activity_search">Buscar</string>
+    <string name="any">todos</string>
+    <string name="title_activity_results">Resultados</string>
+    <string name="signedin">Cadastrado com sucesso!</string>
+    <string name="edit_location">Editar Local</string>
+    <string name="title_activity_edit_location_maps">Editar Local</string>
+    <string name="cancel">Cancelar</string>
+    <string name="fiap_url">https://www.fiap.com.br/</string>
+    <string name="min">Mín</string>
+    <string name="hint_value">00</string>
+    <string name="max">Máx</string>
+    <string name="restaurant_img">Imagem do restaurante</string>
+    <string name="marker_img">Marcador da posição do restaurante</string>
+    <string name="logo">Logo do aplicativo</string>
 </resources>
