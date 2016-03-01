@@ -26,7 +26,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String TAG = "FIAPFOOOOOOOOOOOOOODMAP";
 
-    RealmQuery<Restaurant> restaurantQuery;
     private RealmResults<Restaurant> restaurantList;
 
     private GoogleMap mMap;

@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +40,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -82,7 +80,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     private GoogleMap mMap;
     private Location currentLocation;
     private Marker marker;
-    private Boolean isMarkerDragging = false;
     private Boolean isLocationSet = false;
 
     /**
@@ -445,7 +442,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     public void onMarkerDragStart(Marker marker) {
         Helper.logMethodName(TAG, new Object() {
         });
-        isMarkerDragging = true;
         Boolean isMarkerDraged = true;
         nsvAdd.setNestedScrollingEnabled(false);
     }
@@ -460,7 +456,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     public void onMarkerDragEnd(Marker marker) {
         Helper.logMethodName(TAG, new Object() {
         });
-        isMarkerDragging = false;
         nsvAdd.setNestedScrollingEnabled(true);
     }
 

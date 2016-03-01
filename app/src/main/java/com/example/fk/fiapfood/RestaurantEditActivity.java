@@ -54,18 +54,11 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     private Realm realm;
     private Restaurant restaurant;
 
-
     @Bind(R.id.etName) EditText etName;
     @Bind(R.id.etPhone) EditText etPhone;
     @Bind(R.id.rgType) RadioGroup rgType;
     @Bind(R.id.etPrice) EditText etPrice;
     @Bind(R.id.etObservation) EditText etObservation;
-
-    @Bind(R.id.radio_rodizio) RadioButton radio_rodizio;
-    @Bind(R.id.radio_fast_food) RadioButton radio_fast_food;
-    @Bind(R.id.radio_delivery) RadioButton radio_delivery;
-    @Bind(R.id.radio_undefined) RadioButton radio_undefined;
-
 
     //////////////
     // photo vars

@@ -6,6 +6,7 @@ public class Helper {
 
     private static final String TAG = "FIAPFOOOOOOOOOOOOOOOOOD";
 
+    @SuppressWarnings("unused")
     public static void logMethodName(Object o) {
         Log.w(TAG, "method: " + o.getClass().getEnclosingMethod().getName());
     }
