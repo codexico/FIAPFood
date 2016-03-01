@@ -222,6 +222,8 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         if (fileUri != null && !fileUri.getPath().isEmpty()) {
             restaurant.setImageUrl(fileUri.getPath());
+        } else {
+            restaurant.setImageUrl("");
         }
 
         restaurant.setLatitude(currentLocation.getLatitude());

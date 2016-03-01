@@ -330,9 +330,8 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         Helper.logMethodName(TAG, new Object() {
         });
 
-        Log.w(TAG, restaurant.getImageUrl());
-
         if (restaurant.getImageUrl() != "") {
+            Log.w(TAG, restaurant.getImageUrl());
 
             try {
                 BitmapFactory.Options options = new BitmapFactory.Options();
