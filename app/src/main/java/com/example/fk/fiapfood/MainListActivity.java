@@ -224,8 +224,8 @@ public class MainListActivity extends NavigationDrawerActivity {
         }
     }
     // Given a URL, establishes an HttpUrlConnection and retrieves
-// the web page content as a InputStream, which it returns as
-// a string.
+    // the web page content as a InputStream, which it returns as
+    // a string.
     private String downloadUrl(String myurl) throws IOException {
         Helper.logMethodName(TAG, new Object() {
         });
