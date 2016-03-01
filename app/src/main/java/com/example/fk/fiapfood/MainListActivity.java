@@ -174,12 +174,12 @@ public class MainListActivity extends NavigationDrawerActivity {
 
                     Restaurant restaurant = realm.createObject(Restaurant.class);
 
-                    restaurant.setName(restaurantJson.optString("NOMERESTAURANTE").toString());
-                    restaurant.setPhone(restaurantJson.optString("TELEFONE").toString());
+                    restaurant.setName(restaurantJson.optString("NOMERESTAURANTE"));
+                    restaurant.setPhone(restaurantJson.optString("TELEFONE"));
 
                     // TODO: DRY
                     int type = 0; // não sei, indefinido
-                    switch(restaurantJson.optString("TIPO").toString()) {
+                    switch(restaurantJson.optString("TIPO")) {
                         case "rodizio":
                             type = 1;
                             break;
@@ -195,8 +195,8 @@ public class MainListActivity extends NavigationDrawerActivity {
 
                     restaurant.setPrice(restaurantJson.optInt("CustoMedio"));
                     restaurant.setObservation(
-                            restaurantJson.optString("OBSERVACAO").toString());
-                    String[] latLon = restaurantJson.optString("LOCALIZACAO").toString().split(",");
+                            restaurantJson.optString("OBSERVACAO"));
+                    String[] latLon = restaurantJson.optString("LOCALIZACAO").split(",");
                     restaurant.setLatitude(Double.parseDouble(latLon[0]));
                     restaurant.setLongitude(Double.parseDouble(latLon[1]));
 
