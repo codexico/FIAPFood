@@ -60,6 +60,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         GoogleMap.OnMarkerDragListener {
 
     private static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
+    private static final int GET_CENTER_LOCATION = 21;
 
     @Bind(R.id.etName) EditText etName;
     @Bind(R.id.etPhone) EditText etPhone;
@@ -180,12 +181,10 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         restaurant.setType(type);
 
-
         String price = etPrice.getText().toString();
         if (!price.isEmpty()) {
             restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
         }
-
 
         if (fileUri != null && !fileUri.getPath().isEmpty()) {
             restaurant.setImageUrl(fileUri.getPath());
@@ -193,8 +192,8 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
             restaurant.setImageUrl("");
         }
 
-        restaurant.setLatitude(currentLocation.getLatitude());
-        restaurant.setLongitude(currentLocation.getLongitude());
+        restaurant.setLatitude(marker.getPosition().latitude);
+        restaurant.setLongitude(marker.getPosition().longitude);
 
         RestaurantDAO dao = new RestaurantDAO(this);
         if (!dao.save(restaurant)) {
@@ -502,6 +501,19 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
             Log.w(TAG, "INTENT READY");
             previewCapturedImage();
         }
+
+        if (requestCode == GET_CENTER_LOCATION) {
+            if (resultCode == RESULT_OK) {
+
+                double lat = data.getDoubleExtra("lat", currentLocation.getLatitude());
+                double lon = data.getDoubleExtra("lon", currentLocation.getLongitude());
+
+                LatLng here = new LatLng(lat, lon);
+
+                marker.setPosition(here);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+            }
+        }
     }
 
     private void previewCapturedImage() {
@@ -521,5 +533,18 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @OnClick(R.id.btEditLocation)
+    public void editLocation(View view) {
+        Intent i = new Intent(RestaurantAddActivity.this, EditLocationMapsActivity.class);
+
+        Bundle b = new Bundle();
+        b.putDouble("lat", currentLocation.getLatitude());
+        b.putDouble("lon", currentLocation.getLongitude());
+        i.putExtras(b);
+
+        startActivityForResult(i, GET_CENTER_LOCATION);
     }
 }
