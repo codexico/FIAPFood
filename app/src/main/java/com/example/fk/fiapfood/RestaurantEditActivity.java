@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.example.fk.fiapfood.dao.RestaurantDAO;
 import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,7 +37,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class RestaurantEditActivity extends NavigationDrawerActivity implements OnMapReadyCallback {
 
@@ -90,13 +91,16 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         int oldRestaurantPosition = intent.getIntExtra("restaurant", 0);
 
         realm = Realm.getInstance(this);
-
         restaurant = realm.where(Restaurant.class).findAll().get(oldRestaurantPosition);
+        showRestaurant();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapMini);
         mapFragment.getMapAsync(this);
 
+    }
+
+    private void showRestaurant() {
         previewSavedImage();
 
         etName.setText(restaurant.getName());
@@ -104,9 +108,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         etPrice.setText(String.valueOf(restaurant.getPrice()));
         etObservation.setText(restaurant.getObservation());
 
-        Log.w(TAG, String.valueOf(restaurant.getType()));
-
-        // TODO: DRY
+        // TODO: simplify to not repeat
         switch(restaurant.getType()) {
             case 1:
                 rgType.check(R.id.radio_rodizio);
@@ -120,20 +122,11 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
             default:
                 rgType.check(R.id.radio_undefined);
         }
+
+        // Note: location is shown when the map is ready
     }
 
-
-
-    //////////////
-    // google map
-    //////////////
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Helper.logMethodName(TAG, new Object() {
-        });
-
-        mMap = googleMap;
-
+    private void showRestaurantLocation(){
         double lat = restaurant.getLatitude();
         double lng = restaurant.getLongitude();
         LatLng here = new LatLng(lat, lng);
@@ -148,59 +141,75 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
         startActivity(i);
     }
 
-
-    @OnClick(R.id.btSaveRestaurant)
-    public void saveRestaurant(View view) {
+    //////////////
+    // google map
+    //////////////
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
         Helper.logMethodName(TAG, new Object() {
         });
 
-        realm.beginTransaction();
+        mMap = googleMap;
 
-        restaurant.setName(etName.getText().toString());
-        restaurant.setPhone(etPhone.getText().toString());
-        restaurant.setObservation(etObservation.getText().toString());
+        showRestaurantLocation();
+    }
 
-        int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
-        RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
 
-        // TODO: DRY
-        int type = 0; // R.id.radio_undefined
-        switch(rbSelected.getId()) {
-            case R.id.radio_rodizio:
-                type = 1;
-                break;
-            case R.id.radio_fast_food:
-                type = 2;
-                break;
-            case R.id.radio_delivery:
-                type = 3;
-                break;
+    @OnClick(R.id.btSaveRestaurant)
+    public void updateRestaurant(View view) {
+        Helper.logMethodName(TAG, new Object() {
+        });
+
+        Boolean result = false;
+
+        try {
+            realm.beginTransaction();
+
+            restaurant.setName(etName.getText().toString());
+            restaurant.setPhone(etPhone.getText().toString());
+            restaurant.setObservation(etObservation.getText().toString());
+
+            int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
+            RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
+
+            // TODO: simplify to not repeat
+            int type = 0; // R.id.radio_undefined
+            switch (rbSelected.getId()) {
+                case R.id.radio_rodizio:
+                    type = 1;
+                    break;
+                case R.id.radio_fast_food:
+                    type = 2;
+                    break;
+                case R.id.radio_delivery:
+                    type = 3;
+                    break;
+            }
+            restaurant.setType(type);
+
+            restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
+
+            if (fileUri != null && !fileUri.getPath().isEmpty()) {
+                restaurant.setImageUrl(fileUri.getPath());
+            }
+
+            restaurant.setLatitude(marker.getPosition().latitude);
+            restaurant.setLongitude(marker.getPosition().longitude);
+
+            realm.commitTransaction();
+            result = true;
+        } catch (Exception e) {
+            Log.w(TAG, "Realm Error");
+            e.printStackTrace();
+            realm.cancelTransaction();
         }
-        restaurant.setType(type);
 
-        restaurant.setPrice(Integer.parseInt(etPrice.getText().toString()));
-
-
-        if (fileUri != null && !fileUri.getPath().isEmpty()) {
-            restaurant.setImageUrl(fileUri.getPath());
+        if (!result) {
+            Toast.makeText(RestaurantEditActivity.this, R.string.error_message,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            goToMainListActivity();
         }
-
-        restaurant.setLatitude(marker.getPosition().latitude);
-        restaurant.setLongitude(marker.getPosition().longitude);
-
-        realm.commitTransaction();
-
-        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
-        Log.w(TAG, restaurant.getName());
-        Log.w(TAG, restaurant.getPhone());
-        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
-        Log.w(TAG, restaurant.getImageUrl());
-
-        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
-
-        Log.w(TAG, Integer.toString(allRestaurants.size()));
-
-        goToMainListActivity();
     }
 
 
@@ -331,20 +340,17 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
     @OnClick(R.id.btDeleteRestaurant)
     public void deleteRestaurant(View view) {
-        realm.beginTransaction();
-        restaurant.removeFromRealm();
-        realm.commitTransaction();
-
-        goToMainListActivity();
+        RestaurantDAO dao = new RestaurantDAO(this);
+        if (!dao.delete(restaurant)) {
+            Toast.makeText(RestaurantEditActivity.this, R.string.error_message,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            goToMainListActivity();
+        }
     }
 
     @OnClick(R.id.btEditLocation)
     public void editLocation(View view) {
-
-        // Create the fragment and show it as a dialog.
-//        MapDialog newFragment = MapDialog.newInstance();
-//        newFragment.show(getFragmentManager(), "dialog");
-
         Intent i = new Intent(RestaurantEditActivity.this, EditLocationMapsActivity.class);
 
         Bundle b = new Bundle();

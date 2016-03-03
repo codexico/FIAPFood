@@ -22,7 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.example.fk.fiapfood.dao.RestaurantDAO;
 import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 import com.google.android.gms.common.ConnectionResult;
@@ -48,10 +50,6 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
-import io.realm.exceptions.RealmMigrationNeededException;
 
 
 public class RestaurantAddActivity extends NavigationDrawerActivity implements
@@ -62,8 +60,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         GoogleMap.OnMarkerDragListener {
 
     private static final String TAG = "FIAPFOOOOOOOOOOOOOODADD";
-
-    private Realm realm;
 
     @Bind(R.id.etName) EditText etName;
     @Bind(R.id.etPhone) EditText etPhone;
@@ -106,37 +102,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     private static final int REQUEST_TAKE_PHOTO = 11;
     private static final String IMAGE_DIRECTORY_NAME = "FiapFood";
 
-
-    //////////////
-    // helpers
-    //////////////
-
-    // useful when developing
-    // drop database if migration is needed
-    private Realm getRealm(Context context){
-        Helper.logMethodName(TAG, new Object() {
-        });
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
-
-        try {
-            return Realm.getInstance(realmConfiguration);
-        } catch (RealmMigrationNeededException e){
-            try {
-                Log.w(TAG, "drop database");
-                realmConfiguration = new RealmConfiguration.Builder(context)
-                        .deleteRealmIfMigrationNeeded()
-                        .build();
-                // Delete database and build a new one
-                return Realm.getInstance(realmConfiguration);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw ex;
-            }
-        }
-    }
-
-
     //////////////
     // init
     //////////////
@@ -166,8 +131,12 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         buildGoogleApiClient();
 
-        realm = getRealm(this);
         nsvAdd.setNestedScrollingEnabled(false);
+    }
+
+    private void goToMainListActivity() {
+        Intent i = new Intent(RestaurantAddActivity.this, MainListActivity.class);
+        startActivity(i);
     }
 
     @OnClick(R.id.btSaveRestaurant)
@@ -175,17 +144,17 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         Helper.logMethodName(TAG, new Object() {
         });
 
-        realm.beginTransaction();
+        Restaurant restaurant = new Restaurant();
 
-        Restaurant restaurant = realm.createObject(Restaurant.class);
-
-        restaurant.setName(etName.getText().toString());
+        String name = etName.getText().toString();
+        if (!name.isEmpty()) {
+            restaurant.setName(name);
+        }
 
         String phone = etPhone.getText().toString();
         if (!phone.isEmpty()) {
             restaurant.setPhone(phone);
         }
-
 
         String observation = etObservation.getText().toString();
         if (!observation.isEmpty()) {
@@ -195,8 +164,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         int checkedRadioButtonId = rgType.getCheckedRadioButtonId();
         RadioButton rbSelected = (RadioButton) rgType.findViewById(checkedRadioButtonId);
 
-
-        // TODO: DRY
+        // TODO: simplify to not repeat
         int type = 0; // R.id.radio_undefined
         switch(rbSelected.getId()) {
             case R.id.radio_rodizio:
@@ -228,20 +196,22 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         restaurant.setLatitude(currentLocation.getLatitude());
         restaurant.setLongitude(currentLocation.getLongitude());
 
-        realm.commitTransaction();
+        RestaurantDAO dao = new RestaurantDAO(this);
+        if (!dao.save(restaurant)) {
+            Toast.makeText(RestaurantAddActivity.this, R.string.error_message,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            goToMainListActivity();
+        }
 
-        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
-        Log.w(TAG, restaurant.getName());
-        Log.w(TAG, restaurant.getPhone());
-        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
-        Log.w(TAG, restaurant.getImageUrl());
+//        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
+//        Log.w(TAG, restaurant.getName());
+//        Log.w(TAG, restaurant.getPhone());
+//        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
+//        Log.w(TAG, restaurant.getImageUrl());
+//        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
+//        Log.w(TAG, Integer.toString(allRestaurants.size()));
 
-        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
-
-        Log.w(TAG, Integer.toString(allRestaurants.size()));
-
-        Intent i = new Intent(RestaurantAddActivity.this, MainListActivity.class);
-        startActivity(i);
     }
 
 
