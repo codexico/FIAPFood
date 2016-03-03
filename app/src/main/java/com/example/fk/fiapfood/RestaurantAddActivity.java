@@ -168,7 +168,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     }
 
     @OnClick(R.id.btSaveRestaurant)
-    public void saveRestaurant(View view) {
+    public void saveRestaurant() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -289,9 +289,9 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
-            public void onResult(LocationSettingsResult result) {
+            public void onResult(@NonNull LocationSettingsResult result) {
                 final Status status = result.getStatus();
-                final LocationSettingsStates states = result.getLocationSettingsStates();
+//                final LocationSettingsStates states = result.getLocationSettingsStates();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         // All location settings are satisfied. The client can initialize location
@@ -467,9 +467,9 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         super.onPause();
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
-        if (mGoogleApiClient.isConnected()) {
+//        if (mGoogleApiClient.isConnected()) {
 //            stopLocationUpdates();
-        }
+//        }
     }
 
     @Override
@@ -510,7 +510,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     // photo
     //////////////
     @OnClick(R.id.btTakePhoto)
-    public void onClickTakePhoto(View view) {
+    public void onClickTakePhoto() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -610,7 +610,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
 
     @OnClick(R.id.btEditLocation)
-    public void editLocation(View view) {
+    public void editLocation() {
         Intent i = new Intent(RestaurantAddActivity.this, EditLocationMapsActivity.class);
 
         Bundle b = new Bundle();

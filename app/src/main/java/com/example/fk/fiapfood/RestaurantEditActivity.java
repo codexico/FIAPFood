@@ -157,7 +157,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
 
     @OnClick(R.id.btSaveRestaurant)
-    public void updateRestaurant(View view) {
+    public void updateRestaurant() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -218,7 +218,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     // photo
     //////////////
     @OnClick(R.id.btTakePhoto)
-    public void onClickTakePhoto(View view) {
+    public void onClickTakePhoto() {
         Helper.logMethodName(TAG, new Object() {
         });
 
@@ -340,7 +340,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     }
 
     @OnClick(R.id.btDeleteRestaurant)
-    public void deleteRestaurant(View view) {
+    public void deleteRestaurant() {
         RestaurantDAO dao = new RestaurantDAO(this);
         if (!dao.delete(restaurant)) {
             Toast.makeText(RestaurantEditActivity.this, R.string.error_message,
@@ -351,7 +351,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     }
 
     @OnClick(R.id.btEditLocation)
-    public void editLocation(View view) {
+    public void editLocation() {
         Intent i = new Intent(RestaurantEditActivity.this, EditLocationMapsActivity.class);
 
         Bundle b = new Bundle();

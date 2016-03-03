@@ -55,4 +55,8 @@
     <string name="restaurant_img">Imagem do restaurante</string>
     <string name="marker_img">Marcador da posição do restaurante</string>
     <string name="logo">Logo do aplicativo</string>
+    <string name="currency">R$</string>
+    <string name="empty_name_validation">Preencha o nome por favor</string>
+    <string name="error_message">Aconteceu um erro, tente novamente por favor.</string>
+    <string name="no_results">Nenhum resultado encontrado</string>
 </resources>

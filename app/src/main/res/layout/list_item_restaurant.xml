@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/tv_money"
-                android:text="$"
+                android:text="@string/currency"
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,6 +75,8 @@
                 android:layout_below="@+id/tv_name"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
                 android:paddingRight="8dp"
                 android:paddingEnd="8dp" />
 

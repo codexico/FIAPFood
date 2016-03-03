@@ -25,8 +25,6 @@ public class ResultsActivity extends AppCompatActivity {
     private int max = -1;
     private String name;
 
-    private TextView no_results;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +49,7 @@ public class ResultsActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         if (restaurants.size() == 0) {
-            no_results = (TextView) findViewById(R.id.no_results);
+            TextView no_results = (TextView) findViewById(R.id.no_results);
             no_results.setVisibility(TextView.VISIBLE);
         }
     }

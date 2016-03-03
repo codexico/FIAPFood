@@ -47,7 +47,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     private final String ISLOADED = "ISLOADED";
 
     private Realm realm;
-    RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     // useful when developing
     // drop database if migration is needed

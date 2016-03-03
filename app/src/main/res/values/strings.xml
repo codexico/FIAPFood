@@ -58,4 +58,6 @@
     <string name="logo">App logo</string>
     <string name="error_message">An error occurred, please try again.</string>
     <string name="empty_name_validation">Please give a name</string>
+    <string name="no_results">No results found</string>
+    <string name="currency">$</string>
 </resources>

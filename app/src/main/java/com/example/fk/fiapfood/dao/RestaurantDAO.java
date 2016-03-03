@@ -7,14 +7,12 @@ import com.example.fk.fiapfood.helper.Helper;
 import com.example.fk.fiapfood.model.Restaurant;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.exceptions.RealmMigrationNeededException;
 
 public class RestaurantDAO {
 
     private static final String TAG = "FIAPFOOOOOOOOOOOOOOODAO";
 
-    private Realm realm;
+    private final Realm realm;
 
     public RestaurantDAO(Context context) {
         realm = Realm.getInstance(context);
