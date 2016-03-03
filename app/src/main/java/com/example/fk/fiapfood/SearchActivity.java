@@ -37,7 +37,6 @@ public class SearchActivity extends NavigationDrawerActivity {
         ButterKnife.bind(this);
     }
 
-
     @OnClick(R.id.btSearch)
     public void searchRestaurants(View view) {
         Helper.logMethodName(TAG, new Object() {
@@ -74,18 +73,13 @@ public class SearchActivity extends NavigationDrawerActivity {
         if (!etMinPrice.getText().toString().isEmpty()) {
             i.putExtra("min", etMinPrice.getText().toString());
         } else {
-            i.putExtra("min", -1);
+            i.putExtra("min", "");
         }
         if (!etMaxPrice.getText().toString().isEmpty()) {
             i.putExtra("max", etMaxPrice.getText().toString());
         } else {
-            i.putExtra("max", -1);
+            i.putExtra("max", "");
         }
-
-        Log.w(TAG, etName.getText().toString());
-        Log.w(TAG, etMinPrice.getText().toString());
-        Log.w(TAG, etMaxPrice.getText().toString());
-        Log.w(TAG, String.valueOf(type));
 
         startActivity(i);
     }

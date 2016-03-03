@@ -6,14 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.widget.TextView;
 
 import com.example.fk.fiapfood.adapter.RestaurantAdapter;
 import com.example.fk.fiapfood.model.Restaurant;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
@@ -22,10 +21,11 @@ public class ResultsActivity extends AppCompatActivity {
     private Realm realm;
 
     private int type;
-    private int min;
-    private int max;
+    private int min = -1;
+    private int max = -1;
     private String name;
 
+    private TextView no_results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +37,6 @@ public class ResultsActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ButterKnife.bind(this);
-
-        Intent intent = getIntent();
-
-        name = intent.getStringExtra("name");
-
-        String i_min = intent.getStringExtra("min");
-        if (i_min != null && !i_min.isEmpty()) {
-            min = Integer.parseInt(i_min);
-        } else {
-            min = -1;
-        }
-
-        String i_max = intent.getStringExtra("max");
-        if (i_max != null && !i_max.isEmpty()) {
-            max = Integer.parseInt(i_max);
-        } else {
-            max = -1;
-        }
-
-        type = intent.getIntExtra("type", -1);
-
-
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_main_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -68,18 +45,39 @@ public class ResultsActivity extends AppCompatActivity {
 
         realm = Realm.getInstance(this);
 
-//        mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
-        RecyclerView.Adapter mAdapter = new RestaurantAdapter(searchRestaurants());
+        List<Restaurant> restaurants = searchRestaurants();
+
+        RecyclerView.Adapter mAdapter = new RestaurantAdapter(restaurants);
         mRecyclerView.setAdapter(mAdapter);
+
+        if (restaurants.size() == 0) {
+            no_results = (TextView) findViewById(R.id.no_results);
+            no_results.setVisibility(TextView.VISIBLE);
+        }
+    }
+
+    private void buildSearchData() {
+        Intent intent = getIntent();
+
+        name = intent.getStringExtra("name");
+
+        String i_min = intent.getStringExtra("min");
+        if (!i_min.isEmpty()) {
+            min = Integer.parseInt(i_min);
+        }
+
+        String i_max = intent.getStringExtra("max");
+        if (!i_max.isEmpty()) {
+            max = Integer.parseInt(i_max);
+        }
+
+        type = intent.getIntExtra("type", -1);
     }
 
     private List<Restaurant> searchRestaurants() {
-        RealmQuery<Restaurant> query = realm.where(Restaurant.class);
+        buildSearchData();
 
-        Log.w("name", name);
-        Log.w("min", String.valueOf(min));
-        Log.w("max", String.valueOf(max));
-        Log.w("type", String.valueOf(type));
+        RealmQuery<Restaurant> query = realm.where(Restaurant.class);
 
         if (name != null) {
             query.contains("name", name);
@@ -96,7 +94,6 @@ public class ResultsActivity extends AppCompatActivity {
         if (type > 0) {
             query.equalTo("type", type);
         }
-
 
         return query.findAll();
     }
