@@ -288,10 +288,4 @@ public class MainListActivity extends NavigationDrawerActivity {
         Intent i = new Intent(MainListActivity.this, RestaurantAddActivity.class);
         startActivity(i);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 }

@@ -139,6 +139,7 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
     private void goToMainListActivity() {
         Intent i = new Intent(RestaurantEditActivity.this, MainListActivity.class);
         startActivity(i);
+        finish();
     }
 
     //////////////

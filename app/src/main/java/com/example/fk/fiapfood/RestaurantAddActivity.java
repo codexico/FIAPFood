@@ -138,6 +138,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     private void goToMainListActivity() {
         Intent i = new Intent(RestaurantAddActivity.this, MainListActivity.class);
         startActivity(i);
+        finish();
     }
 
     @OnClick(R.id.btSaveRestaurant)
