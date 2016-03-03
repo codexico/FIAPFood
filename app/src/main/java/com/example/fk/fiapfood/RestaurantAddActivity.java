@@ -150,6 +150,10 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         String name = etName.getText().toString();
         if (!name.isEmpty()) {
             restaurant.setName(name);
+        } else {
+            Toast.makeText(RestaurantAddActivity.this,
+                    R.string.empty_name_validation, Toast.LENGTH_SHORT).show();
+            return;
         }
 
         String phone = etPhone.getText().toString();

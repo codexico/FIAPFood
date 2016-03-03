@@ -57,4 +57,5 @@
     <string name="marker_img">Restaurant position marker</string>
     <string name="logo">App logo</string>
     <string name="error_message">An error occurred, please try again.</string>
+    <string name="empty_name_validation">Please give a name</string>
 </resources>
