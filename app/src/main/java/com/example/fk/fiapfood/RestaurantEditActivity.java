@@ -360,5 +360,11 @@ public class RestaurantEditActivity extends NavigationDrawerActivity implements 
 
         startActivityForResult(i, GET_CENTER_LOCATION);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 }
 

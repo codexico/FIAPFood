@@ -289,4 +289,9 @@ public class MainListActivity extends NavigationDrawerActivity {
         startActivity(i);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 }

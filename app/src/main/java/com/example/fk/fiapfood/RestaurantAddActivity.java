@@ -206,15 +206,6 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         } else {
             goToMainListActivity();
         }
-
-//        restaurant = realm.where(Restaurant.class).equalTo("name", etName.getText().toString()).findFirst();
-//        Log.w(TAG, restaurant.getName());
-//        Log.w(TAG, restaurant.getPhone());
-//        Log.w(TAG, String.valueOf(restaurant.getLatitude()));
-//        Log.w(TAG, restaurant.getImageUrl());
-//        RealmResults<Restaurant> allRestaurants = realm.where(Restaurant.class).findAll();
-//        Log.w(TAG, Integer.toString(allRestaurants.size()));
-
     }
 
 

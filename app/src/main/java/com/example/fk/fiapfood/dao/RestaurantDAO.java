@@ -17,8 +17,7 @@ public class RestaurantDAO {
     private Realm realm;
 
     public RestaurantDAO(Context context) {
-        // realm = Realm.getInstance(this);
-        realm = getRealm(context);
+        realm = Realm.getInstance(context);
     }
 
 
@@ -72,53 +71,6 @@ public class RestaurantDAO {
         }
 
         return result;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //////////////
-    // helpers
-    //////////////
-
-
-    // useful when developing
-    // drop database if migration is needed
-    private Realm getRealm(Context context){
-        Helper.logMethodName(TAG, new Object() {
-        });
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
-
-        try {
-            return Realm.getInstance(realmConfiguration);
-        } catch (RealmMigrationNeededException e){
-            try {
-                Log.w(TAG, "drop database");
-                realmConfiguration = new RealmConfiguration.Builder(context)
-                        .deleteRealmIfMigrationNeeded()
-                        .build();
-                // Delete database and build a new one
-                return Realm.getInstance(realmConfiguration);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw ex;
-            }
-        }
     }
 
 }
