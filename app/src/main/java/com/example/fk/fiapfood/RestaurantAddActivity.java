@@ -3,10 +3,13 @@ package com.example.fk.fiapfood;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,9 +34,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -79,6 +89,8 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
     private Location currentLocation;
     private Marker marker;
     private Boolean isLocationSet = false;
+
+    private static final int REQUEST_CHECK_SETTINGS = 43;
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
@@ -133,6 +145,20 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         buildGoogleApiClient();
 
         nsvAdd.setNestedScrollingEnabled(false);
+
+        checkInternet();
+    }
+
+    private void checkInternet() {
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(RestaurantAddActivity.this,
+                    "If you can't see the map please turn on the internet",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void goToMainListActivity() {
@@ -172,7 +198,7 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
 
         // TODO: simplify to not repeat
         int type = 0; // R.id.radio_undefined
-        switch(rbSelected.getId()) {
+        switch (rbSelected.getId()) {
             case R.id.radio_rodizio:
                 type = 1;
                 break;
@@ -255,6 +281,57 @@ public class RestaurantAddActivity extends NavigationDrawerActivity implements
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                final LocationSettingsStates states = result.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        // All location settings are satisfied. The client can initialize location
+                        // requests here.
+
+                        if (ActivityCompat.checkSelfPermission(RestaurantAddActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RestaurantAddActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+                        startLocationUpdates();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied. But could be fixed by showing the user
+                        // a dialog.
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(
+                                    RestaurantAddActivity.this,
+                                    REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        // Location settings are not satisfied. However, we have no way to fix the
+                        // settings so we won't show the dialog.
+//                        ...
+                        break;
+                }
+            }
+        });
     }
 
 
