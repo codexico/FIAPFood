@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.fk.fiapfood.adapter.RestaurantAdapter;
 import com.example.fk.fiapfood.helper.Helper;
@@ -46,6 +47,7 @@ public class MainListActivity extends NavigationDrawerActivity {
     private final String ISLOADED = "ISLOADED";
 
     private Realm realm;
+    RecyclerView.Adapter mAdapter;
 
     // useful when developing
     // drop database if migration is needed
@@ -112,7 +114,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         Log.w(TAG, "ISLOADED: " + isLoaded());
         checkInitialData();
 
-        RecyclerView.Adapter mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
+        mAdapter = new RestaurantAdapter(realm.where(Restaurant.class).findAll());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -130,6 +132,7 @@ public class MainListActivity extends NavigationDrawerActivity {
         });
 
         String stringUrl = "http://heiderlopes.com.br/restaurantes/restaurantes.json";
+
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -137,6 +140,8 @@ public class MainListActivity extends NavigationDrawerActivity {
             new DownloadWebpageTask().execute(stringUrl);
         } else {
 //            textView.setText("No network connection available.");
+            Toast.makeText(MainListActivity.this,
+                    "Please turn the internet on to load initial data", Toast.LENGTH_SHORT).show();
         }
     }
     // Uses AsyncTask to create a task away from the main UI thread. This task takes a
@@ -207,6 +212,7 @@ public class MainListActivity extends NavigationDrawerActivity {
 
 
                 RealmResults<Restaurant> restaurants = realm.where(Restaurant.class).findAll();
+                mAdapter.notifyDataSetChanged();
 
                 if (restaurants.size() >= 3) {
                     SharedPreferences sp = getSharedPreferences(INITIALDATA_PREFS, MODE_PRIVATE);
